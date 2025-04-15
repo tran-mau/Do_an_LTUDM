@@ -1,0 +1,13 @@
+.monthly-chart {
+    background: var(--white);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin: 24px 0 24px 0;
+
+}
+
+.monthly-chart canvas {
+    width: 100% !important;
+    height: 300px !important;
+}
