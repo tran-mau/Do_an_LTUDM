@@ -1,58 +1,40 @@
-import {
-  Component,
-  AfterViewInit
-} from '@angular/core';
-import {
-  Chart
-} from 'chart.js';
+import { Component } from '@angular/core';
+
+interface StatCard {
+  title: string;
+  amount: number;
+  icon: string;
+  type: 'balance' | 'income' | 'expense';
+}
 
 @Component({
-  selector: 'app-charts',
-  templateUrl: './charts.component.html',
-  styleUrls: ['./charts.component.css']
+  selector: 'app-stats',
+  templateUrl: './stats.component.html',
+  styleUrls: ['./stats.component.css']
 })
-export class ChartsComponent implements AfterViewInit {
-  ngAfterViewInit(): void {
-    const incomeChart = new Chart('incomeChart', {
-      type: 'doughnut',
-      data: {
-        labels: ['Lương', 'Kinh doanh', 'Đầu tư', 'Khác'],
-        datasets: [{
-          data: [65, 15, 15, 5],
-          backgroundColor: ['#4CAF50', '#8BC34A', '#CDDC39', '#AED581'],
-          borderWidth: 0
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: 'bottom'
-          }
-        }
-      }
-    });
+export class StatsComponent {
+  stats: StatCard[] = [
+    {
+      title: 'Current Balance',
+      amount: 3946512048,
+      icon: 'fas fa-wallet',
+      type: 'balance'
+    },
+    {
+      title: 'Income',
+      amount: 5246000000,
+      icon: 'fas fa-arrow-down',
+      type: 'income'
+    },
+    {
+      title: 'Expenses',
+      amount: 1299487952,
+      icon: 'fas fa-arrow-up',
+      type: 'expense'
+    }
+  ];
 
-    const expenseChart = new Chart('expenseChart', {
-      type: 'doughnut',
-      data: {
-        labels: ['Ăn uống', 'Đi lại', 'Giải trí', 'Khác'],
-        datasets: [{
-          data: [30, 25, 25, 20],
-          backgroundColor: ['#FF7043', '#FFB74D', '#FFCC80', '#FFD54F'],
-          borderWidth: 0
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: 'bottom'
-          }
-        }
-      }
-    });
+  formatCurrency(amount: number): string {
+    return new Intl.NumberFormat('vi-VN').format(amount) + ' ₫';
   }
 }

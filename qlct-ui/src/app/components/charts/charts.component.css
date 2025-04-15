@@ -1,32 +1,46 @@
+:root {
+    --primary-color: #2e3077;
+    --secondary-color: #3a3f9e;
+    --accent-color: #4e54c8;
+    --light-color: #f6f6fc;
+    --white: #ffffff;
+    --income-color: #4caf50;
+    --expense-color: #f44336;
+    --text-color: #333333;
+    --text-light: #666666;
+    --text-lighter: #999999;
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --border-radius: 12px;
+}
+
 .charts {
     display: flex;
-    gap: 40px;
-    justify-content: center;
+    gap: 24px;
+    justify-content: space-between;
     flex-wrap: wrap;
+    margin-bottom: 24px;
 }
 
 .chart-box {
     flex: 1;
-    background: var(--white);
-    border-radius: var(--border-radius);
+    min-width: 280px;
+    background: #ffffff;
+    border-radius: 12px;
     padding: 20px;
-    box-shadow: var(--shadow);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.chart-box:hover {
+    transform: translateY(-5px);
 }
 
 .chart-wrapper {
     width: 100%;
-    max-width: 300px;
-    aspect-ratio: 1 / 1;
+    height: 200px;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: auto;
-}
-
-.chart-box canvas {
-    width: 100% !important;
-    height: 100% !important;
-    margin: 0 auto;
 }
 
 .chart-header {
@@ -37,8 +51,10 @@
 }
 
 .chart-header h4 {
+    margin: 0;
     font-size: 16px;
     font-weight: 600;
+    color: #333333;
 }
 
 .chart-period {
@@ -46,34 +62,38 @@
     border-radius: 6px;
     padding: 6px 10px;
     font-size: 12px;
-    background-color: var(--white);
-    color: var(--text-light);
+    background-color: #ffffff;
+    color: #666666;
     cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.chart-period:hover {
+    border-color: #4e54c8;
 }
 
 .view-details {
     display: inline-block;
     margin-top: 16px;
     font-size: 13px;
-    color: var(--primary-color);
+    color: #2e3077;
     text-decoration: none;
+    font-weight: 500;
     transition: all 0.2s ease;
 }
 
 .view-details:hover {
-    color: var(--secondary-color);
-}
-
-.view-details i {
-    font-size: 10px;
+    color: #3a3f9e;
+    text-decoration: underline;
 }
 
 .recent-transactions {
-    width: 300px;
-    background: var(--white);
-    border-radius: var(--border-radius);
+    width: 100%;
+    max-width: 360px;
+    background: #ffffff;
+    border-radius: 12px;
     padding: 20px;
-    box-shadow: var(--shadow);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .transactions-header {
@@ -83,23 +103,37 @@
     margin-bottom: 16px;
 }
 
+.transactions-header h4 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
 .add-transaction {
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     border: none;
-    background-color: var(--primary-color);
-    color: var(--white);
+    background-color: #2e3077;
+    color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.add-transaction:hover {
+    background-color: var(--secondary-color);
+    transform: scale(1.1);
 }
 
 .recent-transactions ul {
     list-style: none;
     padding: 0;
     margin: 0;
+    max-height: 400px;
+    overflow-y: auto;
 }
 
 .recent-transactions li {
@@ -110,23 +144,18 @@
     border-bottom: 1px solid #f0f0f0;
 }
 
+.recent-transactions li:last-child {
+    border-bottom: none;
+}
+
 .transaction-icon {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.transaction-icon.income {
-    background-color: rgba(76, 175, 80, 0.1);
-    color: var(--income-color);
-}
-
-.transaction-icon.expense {
-    background-color: rgba(244, 67, 54, 0.1);
-    color: var(--expense-color);
+    font-size: 18px;
 }
 
 .transaction-details {
@@ -136,9 +165,33 @@
 .transaction-title {
     font-size: 14px;
     font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.transaction-amount {
+    font-weight: 600;
+}
+
+.transaction-amount.income {
+    color: #4caf50;
+}
+
+.transaction-amount.expense {
+    color: #f44336;
 }
 
 .transaction-date {
     font-size: 12px;
-    color: var(--text-lighter);
+    color: #999999;
+}
+
+@media (max-width: 768px) {
+    .charts {
+        flex-direction: column;
+    }
+    
+    .chart-box, .recent-transactions {
+        width: 100%;
+        max-width: none;
+    }
 }

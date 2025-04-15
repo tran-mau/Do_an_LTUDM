@@ -1,39 +1,61 @@
+/* :root {
+    #2e3077: #2e3077;
+    #3a3f9e: #3a3f9e;
+    4e54c8: #4e54c8;
+    --light-color: #f6f6fc;
+    --white: #ffffff;
+    --income-color: #4caf50;
+    --expense-color: #f44336;
+    --text-color: #333333;
+    --text-light: #666666;
+    --text-lighter: #999999;
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --border-radius: 12px;
+} */
+
 .sidebar {
-    width: 260px;
-    background-color: #2e3077;
-    color: white;
+    height: 100%;
+    width: 280px;
+    background-color:#2e3077;
+    color: #333333;
     display: flex;
     flex-direction: column;
+    transition: all 0.3s ease;
 }
 
 .logo {
     text-align: center;
-    font-size: 20px;
+    font-size: 22px;
     font-weight: bold;
-    padding: 50px 0;
+    padding: 24px 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
 
 .nav {
     display: flex;
     flex-direction: column;
-    padding: 30px 30px 30px 10px;
-    gap: 10px;
+    padding: 16px;
+    gap: 8px;
+    flex-grow: 1;
 }
 
 .nav-item {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 10px 16px;
+    gap: 12px;
+    padding: 12px 16px;
     background-color: transparent;
-    color: white;
+    color: #ffffff;
     border: none;
-    border-radius: 8px;
+    border-radius: 12px;
     cursor: pointer;
     font-size: 15px;
     text-align: left;
-    font-weight: bold;
+    transition: all 0.2s ease;
 }
 
 .nav-item:hover {
@@ -41,12 +63,51 @@
 }
 
 .nav-item.active {
-    background-color: white;
+    background-color: #ffffff;
     color: #2e3077;
-    font-weight: bold;
-
+    font-weight: 600;
 }
 
-.nav-item i {
-    font-size: 20px;
+.sidebar-footer {
+    padding: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+}
+
+.user-profile:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.profile-icon {
+    background-color: var(#4e54c8);
+    color: #ffffff;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-name {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.profile-email {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
 }

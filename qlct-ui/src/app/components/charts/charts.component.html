@@ -1,73 +1,12 @@
-<div class="charts">
-    <div class="chart-box">
-        <div class="chart-header">
-            <h4>Thu nhập</h4>
-            <select class="chart-period">
-                <option>Tháng này</option>
-                <option>Quý này</option>
-                <option>Năm nay</option>
-            </select>
+<div class="stats">
+    <div class="stat-card" *ngFor="let stat of stats" [class.income]="stat.type === 'income'"
+        [class.expense]="stat.type === 'expense'">
+        <div class="stat-icon">
+            <i [class]="stat.icon"></i>
         </div>
-        <div class="chart-wrapper">
-            <canvas id="incomeChart"></canvas>
+        <div class="stat-info">
+            <h4>{{ stat.title }}</h4>
+            <p>{{ formatCurrency(stat.amount) }}</p>
         </div>
-        <a href="#" class="view-details">Xem chi tiết <i class="fas fa-chevron-right"></i></a>
-    </div>
-
-    <div class="chart-box">
-        <div class="chart-header">
-            <h4>Chi tiêu</h4>
-            <select class="chart-period">
-                <option>Tháng này</option>
-                <option>Quý này</option>
-                <option>Năm nay</option>
-            </select>
-        </div>
-        <div class="chart-wrapper">
-            <canvas id="expenseChart"></canvas>
-        </div>
-        <a href="#" class="view-details">Xem chi tiết <i class="fas fa-chevron-right"></i></a>
-    </div>
-
-    <div class="recent-transactions">
-        <div class="transactions-header">
-            <h4>Giao dịch gần đây</h4>
-            <button class="add-transaction"><i class="fas fa-plus"></i></button>
-        </div>
-        <ul>
-            <li>
-                <div class="transaction-icon income"><i class="fas fa-money-bill-wave"></i></div>
-                <div class="transaction-details">
-                    <span class="transaction-title">Lương tháng 12</span>
-                    <span class="transaction-date">Hôm nay, 10:30</span>
-                </div>
-                <span class="transaction-amount plus">+9,000,000 đ</span>
-            </li>
-            <li>
-                <div class="transaction-icon expense"><i class="fas fa-shopping-basket"></i></div>
-                <div class="transaction-details">
-                    <span class="transaction-title">Mua gạo</span>
-                    <span class="transaction-date">Hôm qua, 15:45</span>
-                </div>
-                <span class="transaction-amount minus">-90,000 đ</span>
-            </li>
-            <li>
-                <div class="transaction-icon expense"><i class="fas fa-tshirt"></i></div>
-                <div class="transaction-details">
-                    <span class="transaction-title">Mua quần áo</span>
-                    <span class="transaction-date">2 ngày trước, 09:20</span>
-                </div>
-                <span class="transaction-amount minus">-500,000 đ</span>
-            </li>
-            <li>
-                <div class="transaction-icon income"><i class="fas fa-piggy-bank"></i></div>
-                <div class="transaction-details">
-                    <span class="transaction-title">Tiền lãi tiết kiệm</span>
-                    <span class="transaction-date">5 ngày trước, 14:00</span>
-                </div>
-                <span class="transaction-amount plus">+150,000 đ</span>
-            </li>
-        </ul>
-        <a href="#" class="view-all">Xem tất cả <i class="fas fa-chevron-right"></i></a>
     </div>
 </div>

@@ -1,29 +1,12 @@
 <div class="stats">
-    <div class="stat-card">
+    <div class="stat-card" *ngFor="let stat of stats" [class.income]="stat.type === 'income'"
+        [class.expense]="stat.type === 'expense'">
         <div class="stat-icon">
-            <i class="fas fa-wallet"></i>
+            <i [class]="stat.icon"></i>
         </div>
         <div class="stat-info">
-            <h4>Số dư hiện tại</h4>
-            <p>3,946,512,048 <span class="currency">🪙</span></p>
-        </div>
-    </div>
-    <div class="stat-card income">
-        <div class="stat-icon">
-            <i class="fas fa-arrow-down"></i>
-        </div>
-        <div class="stat-info">
-            <h4>Số tiền vào</h4>
-            <p>5,246,000,000 <span class="currency">🪙</span></p>
-        </div>
-    </div>
-    <div class="stat-card expense">
-        <div class="stat-icon">
-            <i class="fas fa-arrow-up"></i>
-        </div>
-        <div class="stat-info">
-            <h4>Số tiền ra</h4>
-            <p>1,299,487,952 <span class="currency">🪙</span></p>
+            <h4>{{ stat.title }}</h4>
+            <p>{{ formatCurrency(stat.amount) }}</p>
         </div>
     </div>
 </div>
