@@ -2,11 +2,11 @@
     <aside class="sidebar">
       <div class="logo">LOGO</div>
       <nav class="nav">
-        <button class="nav-item"><i class="fas fa-home"></i>Home</button>
-        <button class="nav-item"><i class="fas fa-clock"></i>Transaction History</button>
-        <button class="nav-item"><i class="fas fa-credit-card"></i>Income & Outcome</button>
-        <button class="nav-item"><i class="fas fa-list"></i>Budgeting</button>
-        <button class="nav-item active"><i class="fas fa-cog"></i>Setting</button>
+        <button class="nav-item active" data-section="home"><i class="fas fa-home"></i>Home</button>
+        <button class="nav-item" data-section="transaction"><i class="fas fa-clock"></i>Transaction History</button>
+        <button class="nav-item" data-section="income"><i class="fas fa-credit-card"></i>Income & Outcome</button>
+        <button class="nav-item" data-section="budget"><i class="fas fa-list"></i>Budgeting</button>
+        <button class="nav-item" data-section="setting"><i class="fas fa-cog"></i>Setting</button>
       </nav>
     </aside>
     <main class="main">
@@ -24,9 +24,8 @@
           <div class="user-icon"><a href="#"><i class="fas fa-user"></i></a></div>
         </div>
       </div>
-      
+      <app-content *ngIf="activeSection === 'edit-profile'"></app-content>
       <app-setting></app-setting>
-      <!-- <app-content> -->
     </main>
 
 </div>
