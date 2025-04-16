@@ -25,6 +25,9 @@
         </div>
       </div>
       <app-content *ngIf="activeSection === 'home'"></app-content>
+      <app-transaction-history *ngIf="activeSection === 'transaction'"></app-transaction-history>
+      <app-income-outcome *ngIf="activeSection === 'income'"></app-income-outcome>
+      <app-budgeting *ngIf="activeSection === 'budget'"></app-budgeting>
       <app-setting *ngIf="activeSection === 'setting'"></app-setting>
     </main>
 

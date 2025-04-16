@@ -1,20 +1,7 @@
-.container {
-    display: flex;
-    height: 100vh;
-  }
-  
-  .main {
-    flex: 1;
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .content {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding-top: 20px;
-  }
-  
+.content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 20px;
+}

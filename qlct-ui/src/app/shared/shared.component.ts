@@ -2,12 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { SettingComponent } from '../pages/setting/setting.component';
 import { ContentComponent } from '../components/content-dashboard/content-dashboard.component';
 import { CommonModule } from '@angular/common';
+import { TransactionHistoryComponent } from '../pages/transaction-history/transaction-history.component';
+import { IncomeOutcomeComponent } from '../pages/income-outcome/income-outcome.component';
+import { BudgetingComponent } from '../pages/budgeting/budgeting.component';
 
 @Component({
   selector: 'app-shared',
   imports: [
     SettingComponent,
     ContentComponent,
+    TransactionHistoryComponent,
+    IncomeOutcomeComponent,
+    BudgetingComponent,
     CommonModule
   ],
   templateUrl: './shared.component.html',
