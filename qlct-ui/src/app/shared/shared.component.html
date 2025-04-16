@@ -24,8 +24,8 @@
           <div class="user-icon"><a href="#"><i class="fas fa-user"></i></a></div>
         </div>
       </div>
-      <app-content *ngIf="activeSection === 'edit-profile'"></app-content>
-      <app-setting></app-setting>
+      <app-content *ngIf="activeSection === 'home'"></app-content>
+      <app-setting *ngIf="activeSection === 'setting'"></app-setting>
     </main>
 
 </div>

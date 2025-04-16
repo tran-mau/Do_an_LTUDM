@@ -13,9 +13,3 @@ html {
     background-color: #f6f6fc;
     color: #333333;
 }
-
-.container {
-    display: flex;
-    height: 100vh;
-    overflow: hidden;
-}

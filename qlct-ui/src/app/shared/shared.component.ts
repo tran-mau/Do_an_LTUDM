@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { SettingComponent } from '../pages/setting/setting.component';
 import { ContentComponent } from '../components/content-dashboard/content-dashboard.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-shared',
   imports: [
     SettingComponent,
-    ContentComponent
+    ContentComponent,
+    CommonModule
   ],
   templateUrl: './shared.component.html',
   styleUrl: './shared.component.css'
@@ -27,6 +29,6 @@ export class SharedComponent implements OnInit {
         menuItems.forEach(i => i.classList.remove('active'));
         item.classList.add('active');
       });
-    });
+    }); 
   }
 }
