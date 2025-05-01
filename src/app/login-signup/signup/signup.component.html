@@ -1,0 +1,64 @@
+<div class="container">
+    <div class="forms-container">
+        <div class="signup-section">
+            <div class="left-section">
+                <div class="signup-container">
+                    <div *ngIf="!showVerification">
+                        <form class="signup-form" id="signupForm" (ngSubmit)="onSubmit()" #signupForm="ngForm">
+                            <h2>SIGN UP</h2>
+                            <div class="input-box">
+                                <i class="fa-solid fa-user"></i>
+                                <input type="text" placeholder="Username" required />
+                            </div>
+                            <div class="name">
+                                <div class="input-box-name">
+                                    <i class="fa-solid fa-address-card"></i>
+                                    <input type="text" placeholder="First name" required />
+                                </div>
+                                <div class="input-box-name">
+                                    <i class="fa-solid fa-signature"></i>
+                                    <input type="text" placeholder="Last name" required />
+                                </div>
+                            </div>
+                            <div class="input-box">
+                                <i class="fa-solid fa-envelope"></i>
+                                <input type="email" placeholder="Email" required />
+                            </div>
+                            <div class="input-box">
+                                <i class="fa-solid fa-lock"></i>
+                                <input type="password" id="password" placeholder="Password" required />
+                            </div>
+                            <div class="input-box">
+                                <i class="fa-solid fa-key"></i>
+                                <input type="password" id="confirmPassword" placeholder="Re-enter password" required />
+                            </div>
+                            <div class="show-password">
+                                <input type="checkbox" id="show-password" (change)="onShowPassword($event)"/>
+                                <label for="show-password">Show password</label>
+                            </div>
+                            <button type="submit" class="login-button">SIGNUP</button>
+                            <div class="social-signup">
+                                <p class="divider">or continue with</p>
+                                <div class="social-buttons">
+                                    <button type="button" class="facebook-button">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </button>
+                                    <button type="button" class="google-button">
+                                        <img src="https://developers.google.com/identity/images/g-logo.png"
+                                            alt="Google logo" />
+                                    </button>
+                                </div>
+                            </div>
+
+                            <p class="login-link">Already have an account? <a (click)="navigateToLogin()" href="javascript:void(0)">Login</a></p>
+                        </form>
+                    </div>
+                    <app-verification *ngIf="showVerification" (closeVerification)="showVerification = false"></app-verification>
+                </div>
+            </div>
+            <div class="right-section">
+                <h1>SIGN UP</h1>
+            </div>
+        </div>
+    </div>
+</div>

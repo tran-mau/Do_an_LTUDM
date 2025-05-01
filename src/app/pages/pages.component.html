@@ -1,0 +1,32 @@
+<div class="container">
+    <aside class="sidebar">
+      <div class="logo">LOGO</div>
+      <nav class="nav">
+        <button data-url = "/dashboard" class="nav-item active" data-section="home" ><i class="fas fa-home"></i>Home</button>
+        <button data-url = "/transaction" class="nav-item" data-section="transaction"><i class="fas fa-clock"></i>Transaction History</button>
+        <button data-url = "/income-outcome" class="nav-item" data-section="income-outcome"><i class="fas fa-credit-card"></i>Income & Outcome</button>
+        <button data-url = "/budget" class="nav-item" data-section="budget"><i class="fas fa-list"></i>Budgeting</button>
+        <button data-url = "/setting" class="nav-item" data-section="setting"><i class="fas fa-cog"></i>Setting</button>
+      </nav>
+    </aside>
+    <main class="main">
+      <div class="topbar">
+        <div class="search-box">
+          <input type="text" placeholder="Search for product" />
+          <a href="#"><i class="fas fa-search"></i></a>
+        </div>
+        <div class="date-picker">
+          <input type="date" class="custom-date" id="date-input" />
+          <i class="fas fa-calendar-alt custom-calendar-icon" id="calendar-icon"></i>
+        </div>
+        <div class="user-box">
+          <span>Trần A</span>
+          <div class="user-icon"><a href="#"><i class="fas fa-user"></i></a></div>
+        </div>
+      </div>
+      <router-outlet></router-outlet>
+    </main>
+</div>
+
+
+    
