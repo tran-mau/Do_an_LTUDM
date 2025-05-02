@@ -1,0 +1,21 @@
+<form class="login-form-2" id="loginForm-2" (ngSubmit)="onSubmit()" #loginForm_2="ngForm">
+  <h2>Verification</h2>
+  <p class="notice">We've sent a verification code to your email address. Please enter it below to verify your account.</p>
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+  <div class="input-box">
+    <i class="fa-solid fa-shield-alt"></i>
+    <input type="text" placeholder="Verification Code" required [(ngModel)]="verificationCode"
+      name="verificationCode" />
+  </div>
+
+  <button type="submit" class="submit-button" [disabled]="isLoading">
+    <span *ngIf="!isLoading">SUBMIT</span>
+    <span *ngIf="isLoading">Loading...</span>
+  </button>
+  <p class="submit-link">
+    Didn't receive the verification code?
+    <a href="javascript:void(0)" (click)="onResend()">Send again</a>
+  </p>
+</form>

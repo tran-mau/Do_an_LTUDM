@@ -1,0 +1,39 @@
+<div class="main-content">
+
+    <!-- Settings Title -->
+    <div class="setting-title">
+        <i class="fa-solid fa-gear"></i>
+        <h2>Setting Dashboard</h2>
+    </div>
+
+    <div class="settings-container">
+        <!-- Menu Sidebar -->
+        <div class="menu-sidebar">
+            <ul>
+                <li data-section="edit-profile" class="menu-item active">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <span>Edit profile</span>
+                </li>
+                <li data-section="account" class="menu-item">
+                    <i class="fa-solid fa-user"></i>
+                    <span>Account</span>
+                </li>
+                <li data-section="interface" class="menu-item">
+                    <i class="fa-solid fa-desktop"></i>
+                    <span>Interface</span>
+                </li>
+                <li data-section="logout" class="menu-item">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    <span>Log out</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="content-card">
+            <app-edit-profile *ngIf="activeSection === 'edit-profile'"></app-edit-profile>
+            <app-account-section *ngIf="activeSection === 'account'"></app-account-section>
+            <app-interface-section *ngIf="activeSection === 'interface'"></app-interface-section>
+            <app-logout-section *ngIf="activeSection === 'logout'"></app-logout-section>
+        </div>
+    </div>
+</div>
