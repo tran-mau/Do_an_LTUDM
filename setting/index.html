@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings Dashboard</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <img src="./images/mobile-payment.png" alt="">
+        </div>
+        <ul class="sidebar-menu">
+            <li>
+                <i class="fa-solid fa-home"></i>
+                <span>Home</span>
+            </li>
+            <li>
+                <i class="fa-solid fa-calendar"></i>
+                <span>Transactions History</span>
+            </li>
+            <li>
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Transactions</span>
+            </li>
+            <li>
+                <i class="fa-solid fa-book"></i>
+                <span>Budget</span>
+            </li>
+            <li class="active">
+                <i class="fa-solid fa-gear"></i>
+                <span>Setting</span>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <div class="search-input">
+                <input type="text" placeholder="Search for product">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <button class="tab-button">User A</button>
+        </div>
+
+        <!-- Settings Title -->
+        <div class="setting-title">
+            <i class="fa-solid fa-gear"></i>
+            <h2>Setting Dashboard</h2>
+        </div>
+
+        <!-- Settings Container -->
+        <div class="settings-container">
+            <!-- Menu Sidebar -->
+            <div class="menu-sidebar">
+                <ul>
+                    <li data-section="edit-profile" class="menu-item active">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        <span>Edit profile</span>
+                    </li>
+                    <li data-section="account" class="menu-item">
+                        <i class="fa-solid fa-user"></i>
+                        <span>Account</span>
+                    </li>
+                    <li data-section="interface" class="menu-item">
+                        <i class="fa-solid fa-desktop"></i>
+                        <span>Interface</span>
+                    </li>
+                    <li data-section="logout" class="menu-item">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                        <span>Log out</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Content Card -->
+            <div class="content-card">
+                <!-- Edit Profile Section -->
+                <div id="edit-profile" class="section active">
+                    <div class="profile-info">
+                        <div class="profile-row">
+                            <div class="profile-label">Photo</div>
+                            <div class="profile-value profile-photo">
+                                <div class="photo-circle">
+                                    <i class="fa-solid fa-user"></i>
+                                </div>
+                            </div>
+                            <button class="edit-button">Edit</button>
+                        </div>
+                        <div class="profile-row">
+                            <div class="profile-label">Name</div>
+                            <div class="profile-value">Phuong Tuan</div>
+                            <button class="edit-button">Edit</button>
+                        </div>
+                        <div class="profile-row">
+                            <div class="profile-label">Email address</div>
+                            <div class="profile-value">phuongtuan.97@gmail.com</div>
+                            <button class="edit-button">Edit</button>
+                        </div>
+                        <div class="profile-row">
+                            <div class="profile-label">Phone number</div>
+                            <div class="profile-value">0376263512</div>
+                            <button class="edit-button">Edit</button>
+                        </div>
+                        <div class="profile-row">
+                            <div class="profile-label">Birthday</div>
+                            <div class="profile-value">12/01/1997</div>
+                            <button class="edit-button">Edit</button>
+                        </div>
+                        <div class="profile-row">
+                            <div class="profile-label">Position</div>
+                            <div class="profile-value">User</div>
+                        </div>
+                        <div class="profile-row">
+                            <div class="profile-label">State</div>
+                            <div class="profile-value">Working</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Account Section -->
+                <div id="account" class="section">
+                    <h2>Account</h2>
+                    <div class="account-form">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" value="phuongtuan.97@gmail.com" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <div class="password-field">
+                                <input type="password" id="password" value="************" readonly>
+                                <span class="toggle-password">
+                                    <i class="fa-solid fa-eye"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <button class="change-password-btn">Change password</button>
+                    </div>
+                </div>
+
+                <!-- Interface Section (Placeholder) -->
+                <div id="interface" class="section">
+                    <h2>Interface</h2>
+
+                    <div class="interface-option">
+                        <div class="option-label">Background</div>
+                        <div class="option-value">
+                            <div class="color-options">
+                                <div class="color-circle blue selected"></div>
+                                <div class="color-circle white"></div>
+                                <div class="color-circle gray"></div>
+                            </div>
+                        </div>
+                        <button class="change-button">Change</button>
+                    </div>
+
+                    <div class="interface-option">
+                        <div class="option-label">Font-family</div>
+                        <div class="option-value">Inter</div>
+                        <button class="change-button">Change</button>
+                    </div>
+
+                    <div class="interface-option">
+                        <div class="option-label">Color-text</div>
+                        <div class="option-value">
+                            <div class="color-options">
+                                <div class="color-circle blue selected"></div>
+                                <div class="color-circle white"></div>
+                            </div>
+                        </div>
+                        <button class="change-button">Change</button>
+                    </div>
+
+                    <button class="reset-button">Setting all default</button>
+                </div>
+
+                <!-- Log Out Section (Placeholder) -->
+                <div id="logout" class="section">
+                    <h2>Log Out</h2>
+                    <p>Are you sure you want to log out?</p>
+                    <button class="btn-logout">Confirm Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Menu item click handler
+            const menuItems = document.querySelectorAll('.menu-item');
+            const sections = document.querySelectorAll('.section');
+
+            menuItems.forEach(item => {
+                item.addEventListener('click', function () {
+                    menuItems.forEach(menuItem => menuItem.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const sectionId = this.getAttribute('data-section');
+                    sections.forEach(section => section.classList.remove('active'));
+
+                    const selectedSection = document.getElementById(sectionId);
+                    if (selectedSection) {
+                        selectedSection.classList.add('active');
+                    }
+                });
+            });
+
+            // Toggle password visibility
+            const togglePassword = document.querySelector('.toggle-password');
+            const passwordField = document.getElementById('password');
+
+            if (togglePassword && passwordField) {
+                togglePassword.addEventListener('click', function () {
+                    const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordField.setAttribute('type', type);
+
+                    const eyeIcon = this.querySelector('i');
+                    if (eyeIcon) {
+                        eyeIcon.classList.toggle('fa-eye');
+                        eyeIcon.classList.toggle('fa-eye-slash');
+                    }
+                });
+            }
+
+            // Color selection
+            const colorCircles = document.querySelectorAll('.color-circle');
+            colorCircles.forEach(circle => {
+                circle.addEventListener('click', function () {
+                    const parentOption = this.closest('.color-options');
+                    if (parentOption) {
+                        parentOption.querySelectorAll('.color-circle').forEach(c => c.classList.remove('selected'));
+                        this.classList.add('selected');
+                    }
+                });
+            });
+
+            // Brightness slider
+            const brightnessSlider = document.getElementById('brightness-slider');
+            const brightnessValue = document.querySelector('.slider-value');
+
+            if (brightnessSlider && brightnessValue) {
+                brightnessSlider.addEventListener('input', function () {
+                    brightnessValue.textContent = this.value + '%';
+                });
+            }
+
+            // Reset button
+            const resetButton = document.querySelector('.reset-button');
+            if (resetButton) {
+                resetButton.addEventListener('click', function () {
+                    // Reset colors
+                    document.querySelectorAll('.color-options').forEach(option => {
+                        const firstCircle = option.querySelector('.color-circle:first-child');
+                        option.querySelectorAll('.color-circle').forEach(c => c.classList.remove('selected'));
+                        if (firstCircle) {
+                            firstCircle.classList.add('selected');
+                        }
+                    });
+
+                    // Reset brightness
+                    if (brightnessSlider && brightnessValue) {
+                        brightnessSlider.value = 100;
+                        brightnessValue.textContent = '100%';
+                    }
+                });
+            }
+        });
+    </script>
+
+</body>
+
+</html>
