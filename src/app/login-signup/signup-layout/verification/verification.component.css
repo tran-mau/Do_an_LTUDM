@@ -15,6 +15,12 @@
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
     height: 50px;
   }
+
+  .input-box .fa-solid {
+    font-size: 18px;
+    color: #2c2f77;
+    margin-right: 20px;
+  }
   
   .input-box input {
     border: none;
@@ -47,6 +53,15 @@
     font-weight: bold;
     margin: 0 auto;
     display: block;
+  }
+
+  .notice {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 15px;
+    color: #2f3478;
+    margin: 20px 0;
+    font-weight: 300px;
   }
   
   .login-button:hover {
