@@ -1,0 +1,93 @@
+<div class="content">
+  <div class="transaction-table-container">
+    <div *ngIf="loading" class="loading">Loading transactions...</div>
+    <div *ngIf="error" class="error">{{ error }}</div>
+
+    <div class="transaction-table" *ngIf="!loading && !error && transactions.length > 0">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Amount</th>
+            <th>Date time</th>
+            <th>Category</th>
+            <th>Type</th>
+            <th>Note</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let transaction of transactions">
+            <td>{{ transaction.transaction_id }}</td>
+            <td [ngClass]="transaction.transaction_type === 'thu' ? 'thu' : 'chi'">
+              {{ transaction.transaction_type === 'thu' ? '+' : '-' }}{{ transaction.amount | number }}
+            </td>
+            <td>{{ transaction.transaction_date | date:'dd/MM/yy HH:mm:ss' }}</td>
+            <td>{{ transaction.category_name }}</td>
+            <td>{{ transaction.transaction_type }}</td>
+            <td>{{ transaction.note || 'N/A' }}</td>
+            <td class="actions">
+              <button class="edit-btn" title="Sửa" (click)="openEditModal(transaction)">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="delete-btn" title="Xóa" (click)="confirmClick(transaction.transaction_id)">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="!loading && !error && transactions.length === 0" class="no-data">
+      No transactions found.
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div class="modal" *ngIf="clickedRemoveTransactionId !== null">
+    <div class="modal-content">
+      <p>Are you sure you want to delete this transaction?</p>
+      <button class="confirm-btn" (click)="deleteTransaction(clickedRemoveTransactionId!.toString())">Yes</button>
+      <button class="cancel-btn" (click)="cancelDeleteTransaction()">No</button>
+    </div>
+  </div>
+
+  <!-- Edit Transaction Modal -->
+  <div class="modal-change" *ngIf="clickUpdateTransactionId">
+    <div class="modal-content-change">
+      <h2>Edit Transaction</h2>
+      <div class="amount">
+        <h1>Amount</h1>
+        <input type="number" [(ngModel)]="updateTransactionData.amount" placeholder="Enter amount" />
+      </div>
+      <div class="date-time">
+        <h1>Date time</h1>
+        <input type="datetime-local" [(ngModel)]="updateTransactionData.transaction_date" />
+      </div>
+      <div class="category">
+        <h1>Category</h1>
+        <select [(ngModel)]="updateTransactionData.category_name">
+          <option *ngFor="let category of categories" [value]="category.category_name">
+            {{ category.category_name }}
+          </option>
+        </select>
+      </div>
+      <div class="type">
+        <h1>Type</h1>
+        <select [(ngModel)]="updateTransactionData.transaction_type">
+          <option value="thu">Income</option>
+          <option value="chi">Expense</option>
+        </select>
+      </div>
+      <div class="note">
+        <h1>Note</h1>
+        <input type="text" [(ngModel)]="updateTransactionData.note" placeholder="Enter note" />
+      </div>
+      <div class="button-group">
+        <button class="confirm-btn" (click)="updateTransaction()">Update</button>
+        <button class="cancel-btn" (click)="cancelUpdateTransaction()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
