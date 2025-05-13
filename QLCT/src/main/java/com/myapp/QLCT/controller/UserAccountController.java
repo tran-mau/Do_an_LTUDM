@@ -18,13 +18,6 @@ public class UserAccountController {
     @Autowired
     private UserAccountRepository userAccountRepository;
 
-    @GetMapping("/hello")
-    public String getMethodName(@RequestParam(value = "param", defaultValue = "DefaultValue") String param) {
-        return "Hello, " + param;
-    }
-
-    @GetMapping("/user/{id}")
-    public UserAccount getUser(@PathVariable Integer id) {
-        return userAccountRepository.findById(id).orElse(null); // Trả về null nếu không tìm thấy người dùng
-    }
+    
+    
 }
