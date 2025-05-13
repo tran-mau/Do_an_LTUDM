@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SettingComponent } from '../pages/setting/setting.component';
-import { ContentComponent } from '../components/content-dashboard/content-dashboard.component';
+import { ContentComponent } from '../pages/components/content-dashboard/content-dashboard.component';
 import { CommonModule } from '@angular/common';
 import { TransactionHistoryComponent } from '../pages/transaction-history/transaction-history.component';
 import { IncomeOutcomeComponent } from '../pages/income-outcome/income-outcome.component';
