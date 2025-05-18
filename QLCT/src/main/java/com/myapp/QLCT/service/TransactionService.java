@@ -1,9 +1,13 @@
 package com.myapp.QLCT.service;
+
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.myapp.QLCT.dto.request.CategoryTotalDTO;
+import com.myapp.QLCT.entity.Transaction.TransactionType;
 import com.myapp.QLCT.repository.TransactionRepository;
 
 @Service
@@ -17,7 +21,7 @@ public class TransactionService {
         int month = now.getMonthValue();
         int year = now.getYear();
 
-        return transactionRepository.findAmountByTransactionIdAndMonthAndYear(userId, month, year);
+        return transactionRepository.calculateTotalIncomeByUserAndMonth(userId, month, year);
     }
 
     public Long getCurrentMonthOutcome(Long userId) {
@@ -25,10 +29,24 @@ public class TransactionService {
         int month = now.getMonthValue();
         int year = now.getYear();
 
-        return transactionRepository.findAmountByTransactionIdAndMonthAndYear1(userId, month, year);
+        return transactionRepository.calculateTotalExpenseByUserAndMonth(userId, month, year);
     }
-    
+
     public Long getCurrentBalanceUser(Long userId) {
-        return transactionRepository.getCurrentBalanceUser(userId);
+        return transactionRepository.calculateCurrentBalanceByUser(userId);
+    }
+
+    public List<CategoryTotalDTO> getMonthlyIncomeByCategory(Long userId) {
+        LocalDate now = LocalDate.now();
+        int month = now.getMonthValue();
+        int year = now.getYear();
+        return transactionRepository.findCategoryTotalsByTypeAndPeriod(userId, month, year, TransactionType.thu);
+    }
+
+    public List<CategoryTotalDTO> getMonthlyOutcomeByCategory(Long userId) {
+        LocalDate now = LocalDate.now();
+        int month = now.getMonthValue();
+        int year = now.getYear();
+        return transactionRepository.findCategoryTotalsByTypeAndPeriod(userId, month, year, TransactionType.chi);
     }
 }

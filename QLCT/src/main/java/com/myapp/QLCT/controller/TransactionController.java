@@ -1,5 +1,7 @@
 package com.myapp.QLCT.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,12 +9,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.myapp.QLCT.service.TransactionService;
+import com.myapp.QLCT.dto.request.CategoryTotalDTO;
 
 @RestController
 @RequestMapping("/api/transactions")
 public class TransactionController {
     @Autowired
     private TransactionService transactionService;
+
+    // @Autowired
+    // private CategoryTotalDTO categoryTotalDTO;
 
     @GetMapping("/user/amount-in")
     public Long getAmountInByUserIdAndMonthAndYear(
@@ -29,4 +35,14 @@ public class TransactionController {
             @RequestParam("userId") Long userId) {
         return transactionService.getCurrentBalanceUser(userId);
     }
+    @GetMapping("/user/get-list-amount-in")
+    public List<CategoryTotalDTO> getListAmountin(@RequestParam Long userId) {
+        return transactionService.getMonthlyIncomeByCategory(userId);
+    }
+
+    @GetMapping("/user/get-list-amount-out")
+    public List<CategoryTotalDTO> getListAmountout(@RequestParam Long userId) {
+        return transactionService.getMonthlyOutcomeByCategory(userId);
+    }
+    
 }
