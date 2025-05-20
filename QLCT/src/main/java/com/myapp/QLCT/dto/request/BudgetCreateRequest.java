@@ -5,6 +5,8 @@ import java.time.LocalDate;
 
 import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 
+import jakarta.persistence.criteria.CriteriaBuilder.In;
+
 
 public class BudgetCreateRequest {
     private BigDecimal amount;
@@ -12,15 +14,17 @@ public class BudgetCreateRequest {
     private LocalDate endDate;
     private String categoryName;
     private String notice;
+    private Integer userId; // dung de test them budget banwgf cacsh truyen id truc tiep ,test xong xoa
     public BudgetCreateRequest() {
     }
     public BudgetCreateRequest( BigDecimal amount, LocalDate startDate, LocalDate endDate,
-            String categoryName, String notice) {
+            String categoryName, String notice ,Integer userId) {
         this.amount = amount;
         this.startDate = startDate;
         this.endDate = endDate;
         this.categoryName = categoryName;
         this.notice = notice;
+        this.userId = userId;
     }
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
@@ -52,6 +56,13 @@ public class BudgetCreateRequest {
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
+    public Integer getUserId() {
+        return userId;
+    }
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 
+    
     
 }

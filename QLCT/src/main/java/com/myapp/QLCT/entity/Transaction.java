@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "transaction")
+@Table(name = "transactions")
 public class Transaction {
 
     @Id
@@ -18,6 +18,13 @@ public class Transaction {
 
     @Column(name = "date_time", nullable = false)
     private LocalDateTime dateTime;
+
+    @Column(name = "notice", length = 255)
+    private String notice;
+
+    @ManyToOne
+    @JoinColumn(name = "moneysource_id")
+    private MoneySource moneySource;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -36,6 +43,37 @@ public class Transaction {
     }
 
     public Transaction() {
+    }
+
+    public Transaction(Integer transactionId, BigDecimal amount, LocalDateTime dateTime, String notice,
+            MoneySource moneySource, UserAccount user, Category category, TransactionType type) {
+        this.transactionId = transactionId;
+        this.amount = amount;
+        this.dateTime = dateTime;
+        this.notice = notice;
+        this.moneySource = moneySource;
+        this.user = user;
+        this.category = category;
+        this.type = type;
+    }
+
+    public Transaction(Integer transactionId, BigDecimal amount, LocalDateTime dateTime, String notice,
+            UserAccount user, Category category, TransactionType type) {
+        this.transactionId = transactionId;
+        this.amount = amount;
+        this.dateTime = dateTime;
+        this.notice = notice;
+        this.user = user;
+        this.category = category;
+        this.type = type;
+    }
+
+    public void setNotice(String notice) {
+        this.notice = notice;
+    }
+
+    public String getNotice() {
+        return notice;
     }
 
     public Transaction(Integer transactionId, BigDecimal amount, LocalDateTime dateTime, UserAccount user, Category category, TransactionType type) {
@@ -93,5 +131,13 @@ public class Transaction {
 
     public void setType(TransactionType type) {
         this.type = type;
+    }
+
+    public MoneySource getMoneySource() {
+        return moneySource;
+    }
+
+    public void setMoneySource(MoneySource moneySource) {
+        this.moneySource = moneySource;
     }
 }

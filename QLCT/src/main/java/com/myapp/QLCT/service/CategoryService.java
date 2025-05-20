@@ -15,12 +15,11 @@ public class CategoryService {
     private CategoryRepository categoryRepository;
 
     public Category getCategoryByName(String name) {
-        List<Category> categories = categoryRepository.findAll();
-        for (Category category : categories) {
-            if (category.getName().equalsIgnoreCase(name)) {
-                return category;
-            }
-        }
-        return null; // Trả về null nếu không tìm thấy category
+    return categoryRepository.findByNameIgnoreCase(name)
+        .orElse(null); 
+}
+
+    public List<Category> getAllCategories() {
+        return categoryRepository.findAll();
     }
 }

@@ -10,7 +10,7 @@ public class Category {
     @Column(name = "category_id")
     private Integer categoryId;
 
-    @Column(nullable = false, unique = true, length = 100)
+    @Column(nullable = false, unique = true, length = 100,name = "name")
     private String name;
 
     // Constructor mặc định

@@ -1,95 +1,56 @@
-<!-- <div class="transaction-form">
+<form #addTransactionForm="ngForm" (ngSubmit)="addTransaction()">
+  <div class="transaction-wrapper">
     <div class="buttons">
-      <button class="spending">Spending</button>
-      <button class="income">Income</button>
+      <button class="spending" [class.inactive]="selectedType === 'chi'" (click)="selectType('chi')"
+        type="button">Spending</button>
+      <button class="income" [class.inactive]="selectedType === 'thu'" (click)="selectType('thu')"
+        type="button">Income</button>
     </div>
-    
-    <form>
+
+    <div class="transaction-form">
       <div class="form-row">
         <label>Amount</label>
-        <input type="number" placeholder="Enter amount">
-      </div>
-      
-      <div class="form-row">
-        <label>Category</label>
-        <select>
-          <option value="">Select category</option>
-          <option value="food">Food</option>
-          <option value="transport">Transport</option>
-          <option value="entertainment">Entertainment</option>
-        </select>
-      </div>
-      
-      <div class="form-row">
-        <label>Transaction date</label>
-        <input type="date">
-      </div>
-      
-      <div class="form-row">
-        <label>Source of funds</label>
-        <select>
-          <option value="">Select source</option>
-          <option value="cash">Cash</option>
-          <option value="bank">Bank</option>
-          <option value="credit">Credit Card</option>
-        </select>
-      </div>
-      
-      <div class="form-row">
-        <label>Notice</label>
-        <textarea placeholder="Add note"></textarea>
-      </div>
-      
-      <button type="submit" class="add-button">Thêm giao dịch</button>
-    </form>
-  </div> -->
-
-
-
-<div class="transaction-wrapper">
-  <div class="buttons">
-    <button class="spending">Spending</button>
-    <button class="income">Income</button>
-  </div>
-
-  <div class="transaction-form">
-    <form>
-      <div class="form-row">
-        <label>Amount</label>
-        <input type="number" placeholder="Enter amount">
+        <input type="number" [(ngModel)]="amount" name="amount" required #amountInput="ngModel"
+          [ngClass]="{'invalid': amountInput.invalid && amountInput.touched}" placeholder="Enter amount">
       </div>
 
       <div class="form-row">
         <label>Category</label>
-        <select>
+        <select [(ngModel)]="categoryName" name="categoryName" required #categoryInput="ngModel"
+          (focus)="addTransactionForm.form.markAsTouched()">
           <option value="">Select category</option>
           <option value="food">Food</option>
           <option value="transport">Transport</option>
           <option value="entertainment">Entertainment</option>
+          <option value="shoping">shoping</option>
         </select>
       </div>
 
       <div class="form-row">
         <label>Transaction date</label>
-        <input type="date">
+        <input type="datetime-local" [(ngModel)]="dateTime" name="dateTime" required #dateInput="ngModel"
+          [ngClass]="{'invalid': dateInput.invalid && dateInput.touched}">
       </div>
 
       <div class="form-row">
         <label>Source of funds</label>
-        <select>
+        <select [(ngModel)]="moneySourceName" name="moneySourceName" required #sourceInput="ngModel"
+          (focus)="addTransactionForm.form.markAsTouched()">
           <option value="">Select source</option>
           <option value="cash">Cash</option>
           <option value="bank">Bank</option>
           <option value="credit">Credit Card</option>
+          <option value="luong">lương</option>
         </select>
       </div>
 
       <div class="form-row">
         <label>Notice</label>
-        <textarea placeholder="Add note"></textarea>
+        <textarea placeholder="Add note" [(ngModel)]="notice" name="notice" #noticeInput="ngModel"
+          [ngClass]="{'invalid': noticeInput.invalid && noticeInput.touched}"></textarea>
       </div>
 
       <button type="submit" class="add-button">Thêm giao dịch</button>
-    </form>
+    </div>
   </div>
-</div>
+</form>

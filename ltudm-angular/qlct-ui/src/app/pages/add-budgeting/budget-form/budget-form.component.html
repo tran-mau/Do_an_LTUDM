@@ -1,8 +1,8 @@
-<form #addBudgetForm = "ngForm">
+<form #addBudgetForm = "ngForm" (ngSubmit) = "addBudget()">
     <div class="budget-form">
         <div class="form-group">
             <label for="amount">Amount</label>
-            <input [(ngModel)]="amount" (input)="onAmountChange()" 
+            <input [(ngModel)]="amount" 
             (focus) = "addBudgetForm.form.markAsTouched()" 
             required type="number" 
             name="amount"
@@ -15,42 +15,43 @@
         <div class="form-group">
             <label for="category">Category</label>
             <!-- <input type="text" id="category" placeholder="Chọn danh mục"> -->
-            <select [(ngModel)]="category" 
-            (change)="onCategoryChange()" required
-            name="category" id="category"
+            <select [(ngModel)]="categoryName" 
+            required
+            name="categoryName" id="category"
             (focus) = "addBudgetForm.form.markAsTouched()"
             >
                 <option value="">Select source</option>
                 <option value="cash">Cash</option>
                 <option value="bank">Bank</option>
                 <option value="credit">Credit Card</option>
+                <option value="shoping">shoping</option>
             </select>
             <p class="text-danger"
-            *ngIf="category == '' && addBudgetForm.form.touched">
+            *ngIf="categoryName == '' && addBudgetForm.form.touched">
                 Chọn danh mục</p>
         </div>
 
         <div class="form-group">
             <label for="date">Start date</label>
-            <input [(ngModel)]="startdate" 
+            <input [(ngModel)]="startDate" 
             type="date" 
-            (input)="onStartDateChange()" required
-            name="startdate" id="date">
+            required
+            name="startDate" id="date">
         </div>
 
         <div class="form-group">
             <label for="date">End date</label>
-            <input [(ngModel)]="enddate" 
+            <input [(ngModel)]="endDate" 
             type="date" 
-            (input)="onEndDateChange()" required
-            name="enddate" id="date">
+            required
+            name="endDate" id="date">
         </div>
 
         <div class="form-group">
             <label for="notice">Notice</label>
-            <input type="text" id="notice" placeholder="Nhập ghi chú" [(ngModel)]="notice" (input)="onNoticeChange()">
+            <input type="text" id="notice" placeholder="Nhập ghi chú" name="notice" [(ngModel)]="notice">
         </div>
 
-        <button (click)="onCreateBudget()" class="create-btn">Tạo ngân sách</button>
+        <button type="submit" class="create-btn">Tạo ngân sách</button>
     </div>
 </form>

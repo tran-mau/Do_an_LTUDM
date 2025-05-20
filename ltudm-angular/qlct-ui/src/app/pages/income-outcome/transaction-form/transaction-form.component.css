@@ -191,4 +191,34 @@ textarea {
   background-color: #444899;
 }
 
+/* Hiệu ứng hover */
+.buttons .spending:hover {
+  background-color: #c0392b;
+  box-shadow: 0 4px 10px rgba(231, 76, 60, 0.4);
+}
+
+.buttons .income:hover {
+  background-color: #27ae60;
+  box-shadow: 0 4px 10px rgba(46, 204, 113, 0.4);
+}
+
+/* Hiệu ứng click (active) */
+.buttons .spending:active {
+  transform: scale(0.97);
+  background-color: #a93226;
+}
+
+.buttons .income:active {
+  transform: scale(0.97);
+  background-color: #1e8449;
+}
+
+/* Trạng thái chưa được chọn */
+.inactive {
+  opacity: 0.5;
+  filter: grayscale(50%);
+  /* pointer-events: none;  */
+  transition: opacity 0.3s, filter 0.3s;
+}
+
 
