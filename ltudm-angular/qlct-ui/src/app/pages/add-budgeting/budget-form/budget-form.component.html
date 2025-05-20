@@ -31,11 +31,19 @@
         </div>
 
         <div class="form-group">
-            <label for="date">Transaction date</label>
-            <input [(ngModel)]="transactionDate" 
+            <label for="date">Start date</label>
+            <input [(ngModel)]="startdate" 
             type="date" 
-            (input)="onTransactionDateChange()" required
-            name="transactionDate" id="date">
+            (input)="onStartDateChange()" required
+            name="startdate" id="date">
+        </div>
+
+        <div class="form-group">
+            <label for="date">End date</label>
+            <input [(ngModel)]="enddate" 
+            type="date" 
+            (input)="onEndDateChange()" required
+            name="enddate" id="date">
         </div>
 
         <div class="form-group">

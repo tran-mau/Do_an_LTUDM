@@ -29,13 +29,16 @@ export class BudgetFormComponent {
   @ViewChild('addBudgetForm') addBudgetForm!: NgForm;
   amount: number;
   category: string;
-  transactionDate: Date;
+  startdate: Date;
+  enddate: Date;
   notice: string;
   constructor(private http: HttpClient, private router: Router) {
     this.amount = 0;
     this.category = '';
-    this.transactionDate = new Date();
+    this.startdate = new Date();
+    this.enddate = new Date();
     this.notice = '';
+
   }
   onAmountChange() {
     console.log('Amount changed:', this.amount);  
@@ -43,14 +46,17 @@ export class BudgetFormComponent {
   onCategoryChange() {
     console.log('Catagory changed:', this.category);  
   }
-  onTransactionDateChange() {
-    console.log('Transaction date changed:', this.transactionDate);  
-  }
   onNoticeChange() {
     console.log('Notice changed:', this.notice);  
   }
+  onStartDateChange() {
+    console.log('Start date changed:', this.startdate);  
+  }
+  onEndDateChange() {
+    console.log('End date changed:', this.enddate);  
+  }
   onCreateBudget(){
-    const message = `Budget created with amount: ${this.amount}, category: ${this.category}, transaction date: ${this.transactionDate}, notice: ${this.notice}`;
+    const message = `Budget created with amount: ${this.amount}, category: ${this.category}, start date: ${this.startdate} , end date : ${this.enddate}, notice: ${this.notice}`;
     alert(message);
   }
 }

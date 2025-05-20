@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+
 @Entity
 @Table(name = "budget")
 public class Budget {
@@ -22,6 +23,9 @@ public class Budget {
     @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
+    @Column(name = "notice" ,length = 255)  
+    private String notice;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
@@ -30,16 +34,22 @@ public class Budget {
     @JoinColumn(name = "user")
     private UserAccount user;
 
+
     public Budget() {
     }
 
-    public Budget(Integer budgetId, BigDecimal amount, LocalDate startDate, LocalDate endDate, Category category, UserAccount user) {
+    public Budget(Integer budgetId, BigDecimal amount, LocalDate startDate, LocalDate endDate, Category category, String notice , UserAccount user) {
         this.budgetId = budgetId;
         this.amount = amount;
         this.startDate = startDate;
         this.endDate = endDate;
         this.category = category;
+        this.notice = notice;
         this.user = user;
+    }
+
+    public void setNotice(String notice) {
+        this.notice = notice;
     }
 
     public Integer getBudgetId() {
@@ -80,6 +90,10 @@ public class Budget {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public String getNotice() {
+        return notice;
     }
 
     public UserAccount getUser() {
