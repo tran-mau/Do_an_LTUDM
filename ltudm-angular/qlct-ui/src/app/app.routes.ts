@@ -13,23 +13,23 @@ import { PagesComponent } from './pages/pages.component';
 import { SignupLayoutComponent } from './login-signup/signup-layout/signup-layout.component';
 
 export const routes: Routes = [
-    {
-        path: '',
-        component: LoginSignupComponent,
-        children: [
-          { path: '', redirectTo: 'login', pathMatch: 'full' },
-          { path: 'login', component: LoginComponent },
-          {
-            path: 'signup',
-            component: SignupLayoutComponent,
-            children: [
-              { path: '', component: SignupComponent }, 
-              { path: 'verification', component: VerificationComponent } 
-            ]
-          }
-        ]
-      }
-      ,
+    // {
+    //     path: '',
+    //     component: LoginSignupComponent,
+    //     children: [
+    //       { path: '', redirectTo: 'login', pathMatch: 'full' },
+    //       { path: 'login', component: LoginComponent },
+    //       {
+    //         path: 'signup',
+    //         component: SignupLayoutComponent,
+    //         children: [
+    //           { path: '', component: SignupComponent }, 
+    //           { path: 'verification', component: VerificationComponent } 
+    //         ]
+    //       }
+    //     ]
+    //   }
+    //   ,
     {
         path: '',
         component: PagesComponent,

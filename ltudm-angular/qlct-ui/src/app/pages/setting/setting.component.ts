@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { EditProfileComponent } from './content-card/edit-profile/edit-profile.component';
-import { AccountSectionComponent } from './content-card/account-section/account-section.component';
-import { InterfaceSectionComponent } from './content-card/interface-section/interface-section.component';
 import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AccountSectionComponent } from './content-card/account-section/account-section.component';
+import { EditProfileComponent } from './content-card/edit-profile/edit-profile.component';
+import { InterfaceSectionComponent } from './content-card/interface-section/interface-section.component';
 import { LogoutSectionComponent } from './content-card/logout-section/logout-section.component';
 
 @Component({
@@ -15,25 +16,36 @@ import { LogoutSectionComponent } from './content-card/logout-section/logout-sec
     CommonModule
   ],
   templateUrl: './setting.component.html',
-  styleUrl: './setting.component.css'
+  styleUrls: ['./setting.component.css']
 })
 export class SettingComponent implements OnInit {
-  activeSection: String = 'edit-profile';
+  activeSection: string = 'edit-profile';
 
-  constructor() { }
+  constructor(private router: Router, private route: ActivatedRoute) {}
+
   ngOnInit(): void {
-    this.setupMenuListeners();
+    this.route.queryParams.subscribe(params => {
+      if (params['section']) {
+        this.activeSection = params['section'];
+      } else {
+        // Nếu không có section trong URL, tự redirect sang section mặc định
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: { section: 'edit-profile' },
+          replaceUrl: true // thay thế url hiện tại để tránh stack lịch sử
+        });
+      }
+    });
   }
 
-  setupMenuListeners() {
-    const menuItems = document.querySelectorAll('.menu-item');
+  onMenuClick(section: string) {
+    if (section === this.activeSection) return; // tránh reload lại
 
-    menuItems.forEach(item => {
-      item.addEventListener('click', () => {
-        this.activeSection = item.getAttribute('data-section') || 'edit-profile';
-        menuItems.forEach(i => i.classList.remove('active'));
-        item.classList.add('active');
-      });
+    this.activeSection = section;
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { section: section },
+      queryParamsHandling: 'merge'
     });
   }
 }
