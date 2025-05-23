@@ -19,7 +19,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
            "AND FUNCTION('MONTH', t.dateTime) = :month " +
            "AND FUNCTION('YEAR', t.dateTime) = :year")
     Long calculateTotalIncomeByUserAndMonth(
-            @Param("userId") Long userId,
+            @Param("userId") String userId,
             @Param("month") int month,
             @Param("year") int year);
 
@@ -29,7 +29,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
            "AND FUNCTION('MONTH', t.dateTime) = :month " +
            "AND FUNCTION('YEAR', t.dateTime) = :year")
     Long calculateTotalExpenseByUserAndMonth(
-            @Param("userId") Long userId,
+            @Param("userId") String userId,
             @Param("month") int month,
             @Param("year") int year);
 
@@ -37,7 +37,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
            "COALESCE(SUM(CASE WHEN t.type = 'chi' THEN t.amount ELSE 0 END), 0) " +
            "FROM Transaction t " +
            "WHERE t.user.id = :userId")
-    Long calculateCurrentBalanceByUser(@Param("userId") Long userId);
+    Long calculateCurrentBalanceByUser(@Param("userId") String userId);
 
     @Query("SELECT new com.myapp.QLCT.dto.request.CategoryTotalDTO(COALESCE(SUM(t.amount), 0), t.category.name) " +
            "FROM Transaction t " +
@@ -47,7 +47,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
            "AND t.user.id = :userId " +
            "GROUP BY t.category.name")
     List<CategoryTotalDTO> findCategoryTotalsByTypeAndPeriod(
-            @Param("userId") Long userId,
+            @Param("userId") String userId,
             @Param("month") int month,
             @Param("year") int year,
             @Param("transactionType") Transaction.TransactionType transactionType);

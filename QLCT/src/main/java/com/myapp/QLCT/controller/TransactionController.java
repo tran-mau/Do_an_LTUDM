@@ -26,26 +26,26 @@ public class TransactionController {
 
     @GetMapping("/user/amount-in")
     public Long getAmountInByUserIdAndMonthAndYear(
-            @RequestParam("userId") Long userId) {
+            @RequestParam("userId") String userId) {
         return transactionService.getCurrentMonthIncome(userId);
     }
     @GetMapping("/user/amount-out")
     public Long getAmountOutByUserIdAndMonthAndYear(
-            @RequestParam("userId") Long userId) {
+            @RequestParam("userId") String userId) {
         return transactionService.getCurrentMonthOutcome(userId);
     }
     @GetMapping("/user/balance")
     public Long getCurrentBalanceUser(
-            @RequestParam("userId") Long userId) {
+            @RequestParam("userId") String userId) {
         return transactionService.getCurrentBalanceUser(userId);
     }
     @GetMapping("/user/get-list-amount-in")
-    public List<CategoryTotalDTO> getListAmountin(@RequestParam Long userId) {
+    public List<CategoryTotalDTO> getListAmountin(@RequestParam String userId) {
         return transactionService.getMonthlyIncomeByCategory(userId);
     }
 
     @GetMapping("/user/get-list-amount-out")
-    public List<CategoryTotalDTO> getListAmountout(@RequestParam Long userId) {
+    public List<CategoryTotalDTO> getListAmountout(@RequestParam String userId) {
         return transactionService.getMonthlyOutcomeByCategory(userId);
     }
 

@@ -30,7 +30,7 @@ public class TransactionService {
     @Autowired
     private MoneySourceService moneySourceService;
 
-    public Long getCurrentMonthIncome(Long userId) {
+    public Long getCurrentMonthIncome(String userId) {
         LocalDate now = LocalDate.now();
         int month = now.getMonthValue();
         int year = now.getYear();
@@ -38,7 +38,7 @@ public class TransactionService {
         return transactionRepository.calculateTotalIncomeByUserAndMonth(userId, month, year);
     }
 
-    public Long getCurrentMonthOutcome(Long userId) {
+    public Long getCurrentMonthOutcome(String userId) {
         LocalDate now = LocalDate.now();
         int month = now.getMonthValue();
         int year = now.getYear();
@@ -46,18 +46,18 @@ public class TransactionService {
         return transactionRepository.calculateTotalExpenseByUserAndMonth(userId, month, year);
     }
 
-    public Long getCurrentBalanceUser(Long userId) {
+    public Long getCurrentBalanceUser(String userId) {
         return transactionRepository.calculateCurrentBalanceByUser(userId);
     }
 
-    public List<CategoryTotalDTO> getMonthlyIncomeByCategory(Long userId) {
+    public List<CategoryTotalDTO> getMonthlyIncomeByCategory(String userId) {
         LocalDate now = LocalDate.now();
         int month = now.getMonthValue();
         int year = now.getYear();
         return transactionRepository.findCategoryTotalsByTypeAndPeriod(userId, month, year, TransactionType.thu);
     }
 
-    public List<CategoryTotalDTO> getMonthlyOutcomeByCategory(Long userId) {
+    public List<CategoryTotalDTO> getMonthlyOutcomeByCategory(String userId) {
         LocalDate now = LocalDate.now();
         int month = now.getMonthValue();
         int year = now.getYear();
