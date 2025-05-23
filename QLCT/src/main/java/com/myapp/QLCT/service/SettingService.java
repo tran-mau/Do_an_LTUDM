@@ -1,10 +1,10 @@
 package com.myapp.QLCT.service;
 
+import org.springframework.stereotype.Service;
+
 @Service
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@RequiredArgsConstructor
 public class SettingService {
     
-    UserAccountRepository userAccountRepository;
+    // UserAccountRepository userAccountRepository;
     
 }

@@ -3,6 +3,13 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "java",
+      "name": "QlctApplication",
+      "request": "launch",
+      "mainClass": "com.myapp.QLCT.QlctApplication",
+      "projectName": "QLCT"
+    },
+    {
       "name": "ng serve",
       "type": "chrome",
       "request": "launch",
