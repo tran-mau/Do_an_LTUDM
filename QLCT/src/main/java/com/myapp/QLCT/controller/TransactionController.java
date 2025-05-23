@@ -4,12 +4,16 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.myapp.QLCT.service.TransactionService;
 import com.myapp.QLCT.dto.request.CategoryTotalDTO;
+import com.myapp.QLCT.dto.request.TransactionCreateRequest;
+import com.myapp.QLCT.entity.Transaction;
 
 @RestController
 @RequestMapping("/api/transactions")
@@ -45,4 +49,13 @@ public class TransactionController {
         return transactionService.getMonthlyOutcomeByCategory(userId);
     }
     
+    @GetMapping("/hello")
+    public String hello() {
+        return "Hello, this is a test message!";
+    }
+
+    @PostMapping("/create")
+    public Transaction createTransaction(@RequestBody TransactionCreateRequest transaction) {
+        return transactionService.createTransaction(transaction);
+    }
 }

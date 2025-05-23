@@ -1,29 +1,57 @@
-<div class="budget-form">
-    <div class="form-group">
-        <label for="amount">Amount</label>
-        <input type="text" id="amount" placeholder="Nhập số tiền">
-    </div>
+<form #addBudgetForm = "ngForm" (ngSubmit) = "addBudget()">
+    <div class="budget-form">
+        <div class="form-group">
+            <label for="amount">Amount</label>
+            <input [(ngModel)]="amount" 
+            (focus) = "addBudgetForm.form.markAsTouched()" 
+            required type="number" 
+            name="amount"
+            id="amount">
+            <p class="text-danger" 
+            *ngIf="amount == 0 && addBudgetForm.form.touched ">
+                Nhập số tiền lớn hơn 0</p>
+        </div>
 
-    <div class="form-group">
-        <label for="category">Category</label>
-        <!-- <input type="text" id="category" placeholder="Chọn danh mục"> -->
-        <select>
-            <option value="">Select source</option>
-            <option value="cash">Cash</option>
-            <option value="bank">Bank</option>
-            <option value="credit">Credit Card</option>
-        </select>
-    </div>
+        <div class="form-group">
+            <label for="category">Category</label>
+            <!-- <input type="text" id="category" placeholder="Chọn danh mục"> -->
+            <select [(ngModel)]="categoryName" 
+            required
+            name="categoryName" id="category"
+            (focus) = "addBudgetForm.form.markAsTouched()"
+            >
+                <option value="">Select source</option>
+                <option value="cash">Cash</option>
+                <option value="bank">Bank</option>
+                <option value="credit">Credit Card</option>
+                <option value="shoping">shoping</option>
+            </select>
+            <p class="text-danger"
+            *ngIf="categoryName == '' && addBudgetForm.form.touched">
+                Chọn danh mục</p>
+        </div>
 
-    <div class="form-group">
-        <label for="date">Transaction date</label>
-        <input type="text" id="date" placeholder="Chọn ngày">
-    </div>
+        <div class="form-group">
+            <label for="date">Start date</label>
+            <input [(ngModel)]="startDate" 
+            type="date" 
+            required
+            name="startDate" id="date">
+        </div>
 
-    <div class="form-group">
-        <label for="notice">Notice</label>
-        <input type="text" id="notice" placeholder="Nhập ghi chú">
-    </div>
+        <div class="form-group">
+            <label for="date">End date</label>
+            <input [(ngModel)]="endDate" 
+            type="date" 
+            required
+            name="endDate" id="date">
+        </div>
 
-    <button class="create-btn">Tạo ngân sách</button>
-</div>
+        <div class="form-group">
+            <label for="notice">Notice</label>
+            <input type="text" id="notice" placeholder="Nhập ghi chú" name="notice" [(ngModel)]="notice">
+        </div>
+
+        <button type="submit" class="create-btn">Tạo ngân sách</button>
+    </div>
+</form>

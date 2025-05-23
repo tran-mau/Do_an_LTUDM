@@ -38,6 +38,9 @@ export class AuthService {
           if (response.refreshToken) {
             localStorage.setItem('refresh_token', response.refreshToken); // Store token if returned
           }
+          if (response.userId) {
+            localStorage.setItem('userid', response.userId); // Store userid if needed
+          }
           localStorage.setItem('is_authenticated', 'true');
         }),
         catchError(this.handleError)
