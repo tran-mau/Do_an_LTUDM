@@ -31,6 +31,9 @@ public class Transaction {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @Column(name = "notice", nullable = false)
+    private String notice;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private TransactionType type;
@@ -43,13 +46,14 @@ public class Transaction {
     public Transaction() {}
 
     public Transaction(BigDecimal amount, LocalDateTime dateTime, MoneySource moneySource, User user,
-                       Category category, TransactionType type) {
+                       Category category, TransactionType type, String notice) {
         this.amount = amount;
         this.dateTime = dateTime;
         this.moneySource = moneySource;
         this.user = user;
         this.category = category;
         this.type = type;
+        this.notice = notice;
     }
 
     // Getters and Setters
