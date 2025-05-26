@@ -10,6 +10,13 @@
       "projectName": "QLCT"
     },
     {
+      "type": "java",
+      "name": "QlctApplication",
+      "request": "launch",
+      "mainClass": "com.myapp.QLCT.QlctApplication",
+      "projectName": "ltudm"
+    },
+    {
       "name": "ng serve",
       "type": "chrome",
       "request": "launch",

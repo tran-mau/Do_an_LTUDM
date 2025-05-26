@@ -1,44 +1,104 @@
 <div class="content-card">
-    <!-- Edit Profile Section -->
-    <div id="edit-profile" class="section active">
-        <div class="profile-info">
-            <div class="profile-row">
-                <div class="profile-label">Photo</div>
-                <div class="profile-value profile-photo">
-                    <div class="photo-circle">
-                        <i class="fa-solid fa-user"></i>
-                    </div>
-                </div>
-                <button class="edit-button">Edit</button>
-            </div>
-            <div class="profile-row">
-                <div class="profile-label">Name</div>
-                <div class="profile-value">Phuong Tuan</div>
-                <button class="edit-button">Edit</button>
-            </div>
-            <div class="profile-row">
-                <div class="profile-label">Email address</div>
-                <div class="profile-value">phuongtuan.97&#64;gmail.com</div>
-                <button class="edit-button">Edit</button>
-            </div>
-            <div class="profile-row">
-                <div class="profile-label">Gender</div>
-                <div class="profile-value">0376263512</div>
-                <button class="edit-button">Edit</button>
-            </div>
-            <div class="profile-row">
-                <div class="profile-label">Address</div>
-                <div class="profile-value">12/01/1997</div>
-                <button class="edit-button">Edit</button>
-            </div>
-            <div class="profile-row">
-                <div class="profile-label">Position</div>
-                <div class="profile-value">User</div>
-            </div>
-            <div class="profile-row">
-                <div class="profile-label">State</div>
-                <div class="profile-value">Working</div>
-            </div>
+  <div id="edit-profile" class="section active">
+    <div class="profile-info" *ngIf="profileData">
+      
+      <div class="profile-row">
+        <div class="profile-label">Photo</div>
+        <div class="profile-value profile-photo">
+          <div class="photo-circle">
+            <i class="fa-solid fa-user"></i>
+          </div>
         </div>
+      </div>
+
+      <!-- Username -->
+      <div class="profile-row">
+        <div class="profile-label">Username</div>
+        <div class="profile-value">{{ profileData.username }}</div>
+      </div>
+
+      <!-- First Name -->
+      <div class="profile-row">
+        <div class="profile-label">First Name</div>
+        <div class="profile-value">
+          <ng-container *ngIf="editField !== 'firstname'; else editFirstname">
+            {{ profileData.firstname }}
+          </ng-container>
+          <ng-template #editFirstname>
+            <input
+              #inputField
+              type="text"
+              [(ngModel)]="editValue"
+            />
+          </ng-template>
+        </div>
+
+        <div class="profile-actions">
+          <button
+            *ngIf="editField !== 'firstname'"
+            class="edit-button"
+            (click)="startEdit('firstname')"
+          >
+            Edit
+          </button>
+
+          <ng-container *ngIf="editField === 'firstname'">
+            <button class="save-button" (click)="saveEdit()">Save</button>
+            <button class="cancel-button" (click)="cancelEdit()">Cancel</button>
+          </ng-container>
+        </div>
+      </div>
+
+      <!-- Last Name -->
+      <div class="profile-row">
+        <div class="profile-label">Last Name</div>
+        <div class="profile-value">
+          <ng-container *ngIf="editField !== 'lastname'; else editLastname">
+            {{ profileData.lastname }}
+          </ng-container>
+          <ng-template #editLastname>
+            <input
+              #inputField
+              type="text"
+              [(ngModel)]="editValue"
+            />
+          </ng-template>
+        </div>
+
+        <div class="profile-actions">
+          <button
+            *ngIf="editField !== 'lastname'"
+            class="edit-button"
+            (click)="startEdit('lastname')"
+          >
+            Edit
+          </button>
+
+          <ng-container *ngIf="editField === 'lastname'">
+            <button class="save-button" (click)="saveEdit()">Save</button>
+            <button class="cancel-button" (click)="cancelEdit()">Cancel</button>
+          </ng-container>
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="profile-row">
+        <div class="profile-label">Email</div>
+        <div class="profile-value">{{ profileData.email }}</div>
+      </div>
+
+      <!-- Position (không edit) -->
+      <div class="profile-row">
+        <div class="profile-label">Position</div>
+        <div class="profile-value">User</div>
+      </div>
+
+      <!-- State (không edit) -->
+      <div class="profile-row">
+        <div class="profile-label">State</div>
+        <div class="profile-value">Working</div>
+      </div>
+
     </div>
+  </div>
 </div>

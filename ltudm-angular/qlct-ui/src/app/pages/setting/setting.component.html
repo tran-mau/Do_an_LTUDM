@@ -29,7 +29,7 @@
     </div>
 
     <div class="content-card">
-      <app-edit-profile *ngIf="activeSection === 'edit-profile'"></app-edit-profile>
+      <app-edit-profile *ngIf="activeSection === 'edit-profile'" [profileData]="profileData"></app-edit-profile>
       <app-account-section *ngIf="activeSection === 'account'"></app-account-section>
       <app-interface-section *ngIf="activeSection === 'interface'"></app-interface-section>
       <app-logout-section *ngIf="activeSection === 'logout'"></app-logout-section>

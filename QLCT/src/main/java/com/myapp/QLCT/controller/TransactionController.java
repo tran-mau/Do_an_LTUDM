@@ -48,14 +48,9 @@ public class TransactionController {
     public List<CategoryTotalDTO> getListAmountout(@RequestParam Long userId) {
         return transactionService.getMonthlyOutcomeByCategory(userId);
     }
-    
-    @GetMapping("/hello")
-    public String hello() {
-        return "Hello, this is a test message!";
-    }
 
-    @PostMapping("/create")
-    public Transaction createTransaction(@RequestBody TransactionCreateRequest transaction) {
-        return transactionService.createTransaction(transaction);
-    }
+    // @PostMapping("/create")
+    // public Transaction createTransaction(@RequestBody TransactionCreateRequest transaction) {
+    //     return transactionService.createTransaction(transaction);
+    // }
 }

@@ -64,21 +64,21 @@ public class TransactionService {
         return transactionRepository.findCategoryTotalsByTypeAndPeriod(userId, month, year, TransactionType.chi);
     }
 
-    public Transaction createTransaction(TransactionCreateRequest request){
-        Category category = categoryService.getCategoryByName(request.getCategoryName());
-        // UserAccount userAccount = userAcountService.getUserAccountById(budget.getUserId());
-        UserAccount userAccount = userAcountService.getUserAccountById(1);
+    // public Transaction createTransaction(TransactionCreateRequest request){
+    //     Category category = categoryService.getCategoryByName(request.getCategoryName());
+    //     // UserAccount userAccount = userAcountService.getUserAccountById(budget.getUserId());
+    //     UserAccount userAccount = userAcountService.getUserAccountById(1);
 
-        MoneySource moneySource = moneySourceService.getMoneySourceByName(request.getMoneySourceName());
-        Transaction transaction = new Transaction();
-        transaction.setAmount(request.getAmount());
-        transaction.setDateTime(request.getDateTime());
-        transaction.setNotice(request.getNotice());
-        transaction.setUser(userAccount);
-        transaction.setCategory(category);
-        transaction.setType(TransactionType.valueOf(request.getType()));
-        transaction.setMoneySource(moneySource);
-        return transactionRepository.save(transaction);
+    //     MoneySource moneySource = moneySourceService.getMoneySourceByName(request.getMoneySourceName());
+    //     Transaction transaction = new Transaction();
+    //     transaction.setAmount(request.getAmount());
+    //     transaction.setDateTime(request.getDateTime());
+    //     transaction.setNotice(request.getNotice());
+    //     transaction.setUser(userAccount);
+    //     transaction.setCategory(category);
+    //     transaction.setType(TransactionType.valueOf(request.getType()));
+    //     transaction.setMoneySource(moneySource);
+    //     return transactionRepository.save(transaction);
 
-    }
+    // }
 }

@@ -1,3 +1,11 @@
+.content-card {
+    padding: 20px;
+    background-color: var(--app-background); 
+    border-radius: 10px; /* Bo góc */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Bóng đổ nhẹ */
+    max-width: 100%;
+}
+
 .profile-info {
     width: 100%;
 }
@@ -22,7 +30,7 @@
 .profile-value {
     flex: 1;
     color: #2F3478;
-    margin-left: 80px;
+    margin-left: 150px;
 }
 
 .edit-button {
@@ -55,4 +63,36 @@
     justify-content: center;
     color: white;
     font-size: 20px;
+}
+
+.save-button,
+.cancel-button {
+    background-color: #2F3478;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 15px;
+    cursor: pointer;
+    font-size: 12px;
+    margin-left: 8px; /* cách giữa các nút */
+    transition: background-color 0.3s ease;
+}
+
+.save-button:hover,
+.cancel-button:hover {
+    background-color: #1e1f4f;
+}
+
+/* Style input khi edit */
+input[type="text"],
+input[type="email"] {
+    font-size: 16px;
+    border: none;
+    border-bottom: 2px solid #2F3478;
+    outline: none;
+    width: 100%; /* chiếm hết vùng chứa */
+    max-width: 100%; /* không vượt quá vùng chứa */
+    box-sizing: border-box; /* padding + border nằm trong width */
+    background-color: transparent;
+    color: #2F3478;
 }

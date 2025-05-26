@@ -1,10 +1,11 @@
-/* .section {
-    display: none;
-}
-
-.section.active {
+.section {
     display: block;
-} */
+    max-width: 100%; 
+    padding: 20px;
+    background-color: var(--app-background); 
+    border-radius: 8px; /* Bo góc nhẹ */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
 
 h2 {
     color: #2F3478;
@@ -12,6 +13,13 @@ h2 {
     font-size: 22px;
     padding-bottom: 10px;
     border-bottom: 1px solid #eee;
+}
+
+p {
+    color: #666; /* Màu chữ nhẹ hơn cho đoạn văn */
+    font-size: 16px;
+    margin-bottom: 20px;
+    line-height: 1.5; /* Tăng khoảng cách dòng */
 }
 
 .btn-logout {
@@ -23,8 +31,14 @@ h2 {
     cursor: pointer;
     font-size: 14px;
     margin-top: 20px;
+    transition: background-color 0.3s ease, transform 0.1s ease; /* Hiệu ứng mượt mà */
 }
 
 .btn-logout:hover {
     background-color: #1e1f4f;
+    transform: scale(1.05); /* Phóng to nhẹ khi hover */
+}
+
+.btn-logout:active {
+    transform: scale(0.95); /* Thu nhỏ nhẹ khi nhấn */
 }
