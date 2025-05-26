@@ -35,7 +35,7 @@ export class CategoryService {
       withCredentials: true // Include if your API requires credentials
     };
     
-    return this.http.get<any[]>(`${this.apiUrl}/category`, httpOptions)
+    return this.http.get<any[]>(`${this.apiUrl}/categories/allcategories`, httpOptions)
       .pipe(
         retry(1),
         catchError(this.handleError)

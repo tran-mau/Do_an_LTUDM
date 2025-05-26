@@ -35,7 +35,7 @@ export class TransactionService {
       withCredentials: true // Include if your API requires credentials
     };
 
-    return this.http.get<any[]>(`${this.apiUrl}/transaction`, httpOptions)
+    return this.http.get<any[]>(`${this.apiUrl}/transactions`, httpOptions)
       .pipe(
         retry(1), // Retry once before failing
         catchError(this.handleError)
@@ -50,26 +50,40 @@ export class TransactionService {
       withCredentials: true // Include if your API requires credentials
     };
 
-    return this.http.delete<any[]>(`${this.apiUrl}/transaction/remove?id=${transactionId}`, httpOptions)
+    return this.http.delete<any[]>(`${this.apiUrl}/transactions/remove?id=${transactionId}`, httpOptions)
       .pipe(
         retry(1),
         catchError(this.handleError)
       );
   }
 
-  updateTransaction(transactionId: string, transactionData: any): Observable<any> {
+  updateTransaction(transactionId: number, transactionData: any): Observable<any> {
+    const token = localStorage.getItem('access_token');
+    
+    console.log('=== ANGULAR UPDATE REQUEST ===');
+    console.log('Transaction ID:', transactionId);
+    console.log('Transaction Data:', transactionData);
+    console.log('Token:', token ? 'Present' : 'Missing');
+    
+    if (!token) {
+        return throwError(() => new Error('Access token is missing'));
+    }
+
     const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-      withCredentials: true // Include if your API requires credentials
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+        }),
+        withCredentials: true
     };
 
-    return this.http.put<any>(`${this.apiUrl}/transaction/update?id=${transactionId}`, transactionData, httpOptions)
-      .pipe(
-        catchError(this.handleError)
-      );
-  }
+    const url = `${this.apiUrl}/transactions/update?id=${transactionId}`;
+    console.log('Request URL:', url);
+
+    return this.http.put<any>(url, transactionData, httpOptions)
+        .pipe(
+            catchError(this.handleError)
+        );
+}
   getBalanceTransaction(): Observable<number> {
     const id = localStorage.getItem('userid');
     const token = localStorage.getItem('access_token');

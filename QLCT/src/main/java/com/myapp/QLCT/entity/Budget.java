@@ -32,13 +32,13 @@ public class Budget {
 
     @ManyToOne
     @JoinColumn(name = "user")
-    private UserAccount user;
+    private User user;
 
 
     public Budget() {
     }
 
-    public Budget(Integer budgetId, BigDecimal amount, LocalDate startDate, LocalDate endDate, Category category, String notice , UserAccount user) {
+    public Budget(Integer budgetId, BigDecimal amount, LocalDate startDate, LocalDate endDate, Category category, String notice , User user) {
         this.budgetId = budgetId;
         this.amount = amount;
         this.startDate = startDate;
@@ -96,11 +96,11 @@ public class Budget {
         return notice;
     }
 
-    public UserAccount getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(UserAccount user) {
+    public void setUser(User user) {
         this.user = user;
     }
 }
