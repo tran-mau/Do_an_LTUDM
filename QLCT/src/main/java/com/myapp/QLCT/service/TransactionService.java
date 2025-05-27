@@ -1,8 +1,11 @@
 package com.myapp.QLCT.service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,7 @@ import com.myapp.QLCT.dto.request.TransactionCreateRequest;
 import com.myapp.QLCT.dto.request.TransactionSummaryDTO;
 import com.myapp.QLCT.dto.request.transactionDTO;
 import com.myapp.QLCT.entity.Category;
+import com.myapp.QLCT.entity.User;
 import com.myapp.QLCT.entity.MoneySource;
 import com.myapp.QLCT.entity.Transaction;
 import com.myapp.QLCT.entity.Transaction.TransactionType;
@@ -34,6 +38,9 @@ public class TransactionService {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private UserAcountService userAcountService;
 
 
     @Autowired
@@ -126,25 +133,24 @@ public class TransactionService {
     }
 }
 
-    // public Transaction createTransaction(TransactionCreateRequest request){
-    // Category category =
-    // categoryService.getCategoryByName(request.getCategoryName());
-    // // UserAccount userAccount =
-    // userAcountService.getUserAccountById(budget.getUserId());
-    // UserAccount userAccount = userAcountService.getUserAccountById(1);
+    public Transaction createTransaction(TransactionCreateRequest request){
+    Category category = categoryService.getCategoryByName(request.getCategoryName());
+    User user = userAcountService.getUserAccountById(request.getUserId());
 
-    // MoneySource moneySource =
-    // moneySourceService.getMoneySourceByName(request.getMoneySourceName());
-    // Transaction transaction = new Transaction();
-    // transaction.setAmount(request.getAmount());
-    // transaction.setDateTime(request.getDateTime());
-    // transaction.setNotice(request.getNotice());
-    // transaction.setUser(userAccount);
-    // transaction.setCategory(category);
-    // transaction.setType(TransactionType.valueOf(request.getType()));
-    // transaction.setMoneySource(moneySource);
-    // return transactionRepository.save(transaction);
+    MoneySource moneySource = moneySourceService.getMoneySourceByName(request.getMoneySourceName());
+    Transaction transaction = new Transaction();
+    transaction.setAmount(request.getAmount());
+    transaction.setDateTime(request.getDateTime());
+    transaction.setNotice(request.getNotice());
+    transaction.setUser(user);
+    transaction.setCategory(category);
+    transaction.setType(TransactionType.valueOf(request.getType()));
+    transaction.setMoneySource(moneySource);
+    return transactionRepository.save(transaction);
 
-    // }
+    }
+    public BigDecimal getTotalChi(String userId, String categoryName, LocalDateTime startDate, LocalDateTime endDate) {
+    return transactionRepository.getTotalChiInPeriod(userId, categoryName, startDate, endDate);
+}
 
 }

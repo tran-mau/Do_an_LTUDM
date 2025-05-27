@@ -7,7 +7,9 @@ import { catchError, retry } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class CategoryService {
-  private apiUrl = 'http://localhost:8080/api'; 
+  private apiUrl = 'http://localhost:8080'; 
+  private apiUrl1 = "http://localhost:8080/api/categories/allcategories";
+  // private apiUrl = 'http://localhost:8080/api'; 
 
   constructor(private http: HttpClient) { }
 
@@ -40,5 +42,15 @@ export class CategoryService {
         retry(1),
         catchError(this.handleError)
       );
+  }
+
+    getAllCategory():Observable<any>{
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      withCredentials: true // Include if your API requires credentials
+    };
+    return this.http.get(this.apiUrl1 , httpOptions)
   }
 }

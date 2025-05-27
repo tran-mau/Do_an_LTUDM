@@ -1,4 +1,5 @@
 package com.myapp.QLCT.repository;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jdbc.repository.query.Query;
@@ -14,5 +15,4 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
     @Query("SELECT c FROM Category c WHERE c.name = :name")
     Optional<Category> findByName(@Param("name") String name);
-    
 }

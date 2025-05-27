@@ -1,4 +1,4 @@
-<form #addTransactionForm="ngForm" (ngSubmit)="addTransaction()">
+<form #addTransactionForm="ngForm" (ngSubmit)="checkBudgetBeforeAdd1()">
   <div class="transaction-wrapper">
     <div class="buttons">
       <button class="spending" [class.inactive]="selectedType === 'chi'" (click)="selectType('chi')"
@@ -18,11 +18,9 @@
         <label>Category</label>
         <select [(ngModel)]="categoryName" name="categoryName" required #categoryInput="ngModel"
           (focus)="addTransactionForm.form.markAsTouched()">
-          <option value="">Select category</option>
-          <option value="food">Food</option>
-          <option value="transport">Transport</option>
-          <option value="entertainment">Entertainment</option>
-          <option value="shoping">shoping</option>
+          <option *ngFor="let category of categories" [value]="category.name">
+            {{ category.name }}
+          </option>
         </select>
       </div>
 
@@ -36,11 +34,9 @@
         <label>Source of funds</label>
         <select [(ngModel)]="moneySourceName" name="moneySourceName" required #sourceInput="ngModel"
           (focus)="addTransactionForm.form.markAsTouched()">
-          <option value="">Select source</option>
-          <option value="cash">Cash</option>
-          <option value="bank">Bank</option>
-          <option value="credit">Credit Card</option>
-          <option value="luong">lương</option>
+          <option *ngFor="let moneySource of moneySources" [value]="moneySource.name">
+                    {{ moneySource.name }}
+                </option>
         </select>
       </div>
 

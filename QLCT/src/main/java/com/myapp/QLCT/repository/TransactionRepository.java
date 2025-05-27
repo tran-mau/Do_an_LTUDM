@@ -13,7 +13,10 @@ import com.myapp.QLCT.dto.request.RevenueSummaryDTO;
 import com.myapp.QLCT.dto.request.TransactionSummaryDTO;
 import com.myapp.QLCT.entity.Transaction;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
@@ -56,6 +59,16 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
                      @Param("month") int month,
                      @Param("year") int year,
                      @Param("transactionType") Transaction.TransactionType transactionType);
+       @Query("SELECT COALESCE(SUM(t.amount),0) FROM Transaction t " +
+                     "WHERE t.user.id = :userId " +
+                     "AND t.category.name = :categoryName " +
+                     "AND t.type = 'chi' " +
+                     "AND t.dateTime BETWEEN :startDate AND :endDate")
+       BigDecimal getTotalChiInPeriod(
+                     @Param("userId") String userId,
+                     @Param("categoryName") String categoryName,
+                     @Param("startDate") LocalDateTime startDate,
+                     @Param("endDate") LocalDateTime endDate);
 
        // @Query("SELECT new com.myapp.QLCT.dto.request.RevenueSummaryDTO( " +
        // "COALESCE(SUM(CASE WHEN t.type = 'thu' THEN t.amount ELSE 0 END), 0), " +

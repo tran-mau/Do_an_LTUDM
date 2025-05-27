@@ -11,42 +11,76 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of budgetItems; let i = index" (click)="openModal(item, i)">
-        <td>{{item.type}}</td>
-        <td>{{item.total}}</td>
-        <td>{{item.remaining}}</td>
-        <td>{{item.deadline}}</td>
-        <td>{{item.note}}</td>
+      <tr *ngFor="let item of filteredBudgetItems; let i = index" (click)="openModal(item, i)">
+        <td>{{item.category?.name}}</td>
+        <td>{{item.amount}}</td>
+        <td>{{item.remaining != null ? (item.remaining | number:'1.0-2') : '...'}}</td>
+        <td>{{item.endDate}}</td>
+        <td>{{item.notice}}</td>
       </tr>
     </tbody>
   </table>
 </div>
 
+<div class="filter-section">
+  <label for="timeFilter">Lọc theo thời gian:</label>
+  <select id="timeFilter" [(ngModel)]="selectedTimeFilter" (change)="applyTimeFilter()">
+    <option value="all">Tất cả</option>
+    <option value="thisWeek">Tuần này</option>
+    <option value="lastWeek">Tuần trước</option>
+    <option value="thisMonth">Tháng này</option>
+    <option value="lastMonth">Tháng trước</option>
+    <option value="custom">Tùy chỉnh</option>
+  </select>
 
-<!-- Modal (form) -->
+  <div *ngIf="selectedTimeFilter === 'custom'" class="custom-range">
+    <label>Từ:</label>
+    <input type="date" [(ngModel)]="customStartDate" (change)="applyTimeFilter()">
+    <label>Đến:</label>
+    <input type="date" [(ngModel)]="customEndDate" (change)="applyTimeFilter()">
+  </div>
+</div>
+
+
+
+<!-- Modal Overlay -->
 <div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
   <div class="modal-content" (click)="$event.stopPropagation()">
     <h3>Chỉnh sửa danh mục</h3>
+    <form #editBudgetForm="ngForm" (ngSubmit)="saveEdit()">
+      <div class="form-group">
+        <label>Số tiền:</label>
+        <input type="number" [(ngModel)]="selectedItem.amount" name="amount" class="form-input" required>
+      </div>
 
-    <label>Loại thu chi:</label>
-    <input [(ngModel)]="selectedItem.type" class="form-input">
+      <div class="form-group">
+        <label>Danh mục:</label>
+        <select [(ngModel)]="selectedItem.category.name" name="categoryName" class="form-input" required>
+          <option *ngFor="let category of categories" [value]="category.name">{{ category.name }}</option>
+        </select>
+      </div>
 
-    <label>Tổng:</label>
-    <input [(ngModel)]="selectedItem.total" class="form-input">
+      <div class="form-group">
+        <label>Ngày bắt đầu:</label>
+        <input type="date" [(ngModel)]="selectedItem.startDate" name="startDate" class="form-input" required>
+      </div>
 
-    <label>Còn dư:</label>
-    <input [(ngModel)]="selectedItem.remaining" class="form-input">
+      <div class="form-group">
+        <label>Ngày kết thúc:</label>
+        <input type="date" [(ngModel)]="selectedItem.endDate" name="endDate" class="form-input" required>
+      </div>
 
-    <label>Thời hạn:</label>
-    <input [(ngModel)]="selectedItem.deadline" class="form-input">
+      <div class="form-group">
+        <label>Ghi chú:</label>
+        <textarea [(ngModel)]="selectedItem.notice" name="notice" class="form-input"></textarea>
+      </div>
 
-    <label>Ghi chú:</label>
-    <textarea [(ngModel)]="selectedItem.note" class="form-input"></textarea>
-
-    <div class="modal-actions">
-      <button class="btn btn-edit" (click)="saveEdit()">Lưu chỉnh sửa</button>
-      <button class="btn btn-delete" (click)="deleteItem()">Xóa</button>
-      <button class="btn btn-cancel" (click)="closeModal()">Hủy</button>
-    </div>
+      <div class="modal-actions">
+        <button class="btn btn-edit" type="submit">Lưu chỉnh sửa</button>
+        <button class="btn btn-delete" type="button" (click)="deleteItem()">Xóa</button>
+        <button class="btn btn-cancel" type="button" (click)="closeModal()">Hủy</button>
+      </div>
+    </form>
   </div>
 </div>
+
