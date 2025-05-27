@@ -1,7 +1,10 @@
 package com.myapp.QLCT.service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,7 +70,7 @@ public class TransactionService {
     public Transaction createTransaction(TransactionCreateRequest request){
         Category category = categoryService.getCategoryByName(request.getCategoryName());
         // UserAccount userAccount = userAcountService.getUserAccountById(budget.getUserId());
-        UserAccount userAccount = userAcountService.getUserAccountById(1);
+        UserAccount userAccount = userAcountService.getUserAccountById(request.getUserId());
 
         MoneySource moneySource = moneySourceService.getMoneySourceByName(request.getMoneySourceName());
         Transaction transaction = new Transaction();
@@ -81,4 +84,8 @@ public class TransactionService {
         return transactionRepository.save(transaction);
 
     }
+    public BigDecimal getTotalChi(String userId, String categoryName, LocalDateTime startDate, LocalDateTime endDate) {
+    return transactionRepository.getTotalChiInPeriod(userId, categoryName, startDate, endDate);
+}
+
 }

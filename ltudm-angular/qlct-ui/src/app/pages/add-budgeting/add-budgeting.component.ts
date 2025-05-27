@@ -8,5 +8,11 @@ import { BudgetFormComponent } from './budget-form/budget-form.component';
   styleUrl: './add-budgeting.component.css'
 })
 export class AddBudgetingComponent {
-
+  userId: string | null;
+  constructor(){
+    this.userId = localStorage.getItem('userid');
+  }
+  public onTestUserId(){
+    alert(this.userId);
+  }
 }

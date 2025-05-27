@@ -8,47 +8,61 @@ import org.springframework.stereotype.Repository;
 import com.myapp.QLCT.dto.request.CategoryTotalDTO;
 import com.myapp.QLCT.entity.Transaction;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
 
-    @Query("SELECT COALESCE(SUM(t.amount), 0) FROM Transaction t " +
-           "WHERE t.type = 'thu' " +
-           "AND t.user.id = :userId " +
-           "AND FUNCTION('MONTH', t.dateTime) = :month " +
-           "AND FUNCTION('YEAR', t.dateTime) = :year")
-    Long calculateTotalIncomeByUserAndMonth(
-            @Param("userId") Long userId,
-            @Param("month") int month,
-            @Param("year") int year);
+       @Query("SELECT COALESCE(SUM(t.amount), 0) FROM Transaction t " +
+                     "WHERE t.type = 'thu' " +
+                     "AND t.user.id = :userId " +
+                     "AND FUNCTION('MONTH', t.dateTime) = :month " +
+                     "AND FUNCTION('YEAR', t.dateTime) = :year")
+       Long calculateTotalIncomeByUserAndMonth(
+                     @Param("userId") Long userId,
+                     @Param("month") int month,
+                     @Param("year") int year);
 
-    @Query("SELECT COALESCE(SUM(t.amount), 0) FROM Transaction t " +
-           "WHERE t.type = 'chi' " +
-           "AND t.user.id = :userId " +
-           "AND FUNCTION('MONTH', t.dateTime) = :month " +
-           "AND FUNCTION('YEAR', t.dateTime) = :year")
-    Long calculateTotalExpenseByUserAndMonth(
-            @Param("userId") Long userId,
-            @Param("month") int month,
-            @Param("year") int year);
+       @Query("SELECT COALESCE(SUM(t.amount), 0) FROM Transaction t " +
+                     "WHERE t.type = 'chi' " +
+                     "AND t.user.id = :userId " +
+                     "AND FUNCTION('MONTH', t.dateTime) = :month " +
+                     "AND FUNCTION('YEAR', t.dateTime) = :year")
+       Long calculateTotalExpenseByUserAndMonth(
+                     @Param("userId") Long userId,
+                     @Param("month") int month,
+                     @Param("year") int year);
 
-    @Query("SELECT COALESCE(SUM(CASE WHEN t.type = 'thu' THEN t.amount ELSE 0 END), 0) - " +
-           "COALESCE(SUM(CASE WHEN t.type = 'chi' THEN t.amount ELSE 0 END), 0) " +
-           "FROM Transaction t " +
-           "WHERE t.user.id = :userId")
-    Long calculateCurrentBalanceByUser(@Param("userId") Long userId);
+       @Query("SELECT COALESCE(SUM(CASE WHEN t.type = 'thu' THEN t.amount ELSE 0 END), 0) - " +
+                     "COALESCE(SUM(CASE WHEN t.type = 'chi' THEN t.amount ELSE 0 END), 0) " +
+                     "FROM Transaction t " +
+                     "WHERE t.user.id = :userId")
+       Long calculateCurrentBalanceByUser(@Param("userId") Long userId);
 
-    @Query("SELECT new com.myapp.QLCT.dto.request.CategoryTotalDTO(COALESCE(SUM(t.amount), 0), t.category.name) " +
-           "FROM Transaction t " +
-           "WHERE FUNCTION('MONTH', t.dateTime) = :month " +
-           "AND FUNCTION('YEAR', t.dateTime) = :year " +
-           "AND t.type = :transactionType " +
-           "AND t.user.id = :userId " +
-           "GROUP BY t.category.name")
-    List<CategoryTotalDTO> findCategoryTotalsByTypeAndPeriod(
-            @Param("userId") Long userId,
-            @Param("month") int month,
-            @Param("year") int year,
-            @Param("transactionType") Transaction.TransactionType transactionType);
+       @Query("SELECT new com.myapp.QLCT.dto.request.CategoryTotalDTO(COALESCE(SUM(t.amount), 0), t.category.name) " +
+                     "FROM Transaction t " +
+                     "WHERE FUNCTION('MONTH', t.dateTime) = :month " +
+                     "AND FUNCTION('YEAR', t.dateTime) = :year " +
+                     "AND t.type = :transactionType " +
+                     "AND t.user.id = :userId " +
+                     "GROUP BY t.category.name")
+       List<CategoryTotalDTO> findCategoryTotalsByTypeAndPeriod(
+                     @Param("userId") Long userId,
+                     @Param("month") int month,
+                     @Param("year") int year,
+                     @Param("transactionType") Transaction.TransactionType transactionType);
+
+       @Query("SELECT COALESCE(SUM(t.amount),0) FROM Transaction t " +
+                     "WHERE t.user.id = :userId " +
+                     "AND t.category.name = :categoryName " +
+                     "AND t.type = 'chi' " +
+                     "AND t.dateTime BETWEEN :startDate AND :endDate")
+       BigDecimal getTotalChiInPeriod(
+                     @Param("userId") String userId,
+                     @Param("categoryName") String categoryName,
+                     @Param("startDate") LocalDateTime startDate,
+                     @Param("endDate") LocalDateTime endDate);
 }

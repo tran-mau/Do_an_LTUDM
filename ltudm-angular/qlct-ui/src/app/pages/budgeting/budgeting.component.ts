@@ -41,21 +41,14 @@ import { Router } from '@angular/router';
   styleUrl: './budgeting.component.css'
 })
 export class BudgetingComponent {
-
-  // result : string = '';
-  // loginForm : FormGroup;
-  // constructor(private fb: FormBuilder){
-  //   this.loginForm = this.fb.group({
-  //     username: [''],
-  //     password: ['']
-  //   });
-  // }
-  // onSubmit(){
-  //   console.log(this.loginForm.value.username + ' ' + this.loginForm.value.password);
-  //   this.result = this.loginForm.value.username + ' ' + this.loginForm.value.password;
-  // }
   constructor(private router:Router) {}
   onNavigatethemNS(){
     this.router.navigate(['/add-budget']);
+  }
+  totalBudget: number = 0;
+  totalSpending: number = 0;
+  onTotalsCalculated(totals: { budget: number; spending: number }) {
+    this.totalBudget = totals.budget;
+    this.totalSpending = totals.spending;
   }
 }

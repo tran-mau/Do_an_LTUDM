@@ -3,6 +3,7 @@ import { Component, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { TransactionService } from '../../../services/transaction.service';
 
 @Component({
   selector: 'app-transaction-form',
@@ -16,7 +17,6 @@ export class TransactionFormComponent {
   selectType(type: string) {
     this.selectedType = type;
     this.type = type;
-    // alert(`Selected type: ${type}`);
   }
 
   @ViewChild('addTransactionForm') addTransactionForm!: NgForm;
@@ -24,43 +24,34 @@ export class TransactionFormComponent {
   categoryName: string;
   dateTime: String;
   notice: string;
-  userId: number;
+  userId: string;
   moneySourceName: string;
   type: string;
-  constructor(private http: HttpClient, private router: Router) {
+  moneySources: any[] = [];
+  categories: any[] = [];
+  constructor(private router: Router, private transactionService: TransactionService) {
     this.amount = 0;
     this.categoryName = '';
     this.dateTime = '';
     this.notice = '';
-    this.userId = 1; // Assuming a default user ID for demonstration
+    this.userId = ''; // Assuming a default user ID for demonstration
     this.moneySourceName = '';
     this.type = '';
+
   }
   addTransaction() {
-    const message = `amount: ${this.amount}` +
-                    `categoryName: ${this.categoryName}` +
-                    `dateTime: ${this.dateTime}` +
-                    `notice: ${this.notice}`+
-                    `userId: ${this.userId}`+
-                    `moneySourceName: ${this.moneySourceName}`+
-                    `type: ${this.type}`;
-    const apiUrl = "http://localhost:8080/api/transactions/create";
     const transactionData = {
       "amount": this.amount,
       "categoryName": this.categoryName,
       "dateTime": this.dateTime,
       "notice": this.notice,
-      "userId":1,
+      "userId": localStorage.getItem('userid'),
       "moneySourceName": this.moneySourceName,
       "type": this.type
     }
-    console.log(transactionData);
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
-    this.http.post(apiUrl, transactionData, { headers })
-      .subscribe({
-        next: (response:any) => {
+    this.transactionService.addTransaction(transactionData).subscribe(
+      {
+        next: (response: any) => {
           console.log('Transaction added successfully:', response);
           alert('Transaction added successfully');
           this.router.navigate(['/transactions']);
@@ -73,6 +64,24 @@ export class TransactionFormComponent {
           alert('Error adding transaction');
         }
       }
-      );
+    )
+  }
+  ngOnInit() {
+    this.transactionService.getAllCategory().subscribe({
+      next: (data) => {
+        this.categories = data;
+      },
+      error: (err) => {
+        console.error("Error loading categories", err);
+      }
+    });
+    this.transactionService.getAllMoneySource().subscribe({
+      next: (data) => {
+        this.moneySources = data;
+      },
+      error: (err) => {
+        console.error("Error loading categories", err);
+      }
+    })
   }
 }

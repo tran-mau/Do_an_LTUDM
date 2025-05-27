@@ -7,7 +7,7 @@ import com.myapp.QLCT.entity.UserAccount;
 
 
 @Repository
-public interface UserAccountRepository extends JpaRepository<UserAccount, Integer> {
+public interface UserAccountRepository extends JpaRepository<UserAccount, String> {
     UserAccount findByUsername(String username);
     
 }

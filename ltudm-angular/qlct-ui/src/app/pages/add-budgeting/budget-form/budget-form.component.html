@@ -20,11 +20,9 @@
             name="categoryName" id="category"
             (focus) = "addBudgetForm.form.markAsTouched()"
             >
-                <option value="">Select source</option>
-                <option value="cash">Cash</option>
-                <option value="bank">Bank</option>
-                <option value="credit">Credit Card</option>
-                <option value="shoping">shoping</option>
+                <option *ngFor="let category of categories" [value]="category.name">
+                    {{ category.name }}
+                </option>
             </select>
             <p class="text-danger"
             *ngIf="categoryName == '' && addBudgetForm.form.touched">

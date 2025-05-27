@@ -1,22 +1,10 @@
-// import { Component } from '@angular/core';
-
-// @Component({
-//   selector: 'app-budget-form',
-//   imports: [],
-//   templateUrl: './budget-form.component.html',
-//   styleUrl: './budget-form.component.css'
-// })
-// export class BudgetFormComponent {
-
-// }
-
-
 
 import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { BudgetService } from '../../../services/budget.service';
 
 
 @Component({
@@ -32,39 +20,28 @@ export class BudgetFormComponent {
   startDate: Date;
   endDate: Date;
   notice: string;
-  userId: number;
-  constructor(private http: HttpClient, private router: Router) {
+  userId : String;
+  categories:any[] = [];
+  
+  constructor( private router: Router , private budgetService : BudgetService) {
     this.amount = 0;
     this.categoryName = '';
     this.startDate = new Date();
     this.endDate = new Date();
     this.notice = '';
-    this.userId = 1; // Assuming a default user ID for demonstration
+    this.userId = ""; // Assuming a default user ID for demonstration
   }
+
   addBudget() {
-    const message = `amount: ${this.amount}` +
-                    `categoryName: ${this.categoryName}` +
-                    `startDate: ${this.startDate}` +
-                    `endDate: ${this.endDate}` +
-                    `notice: ${this.notice}`+
-                    `userId: ${this.userId}`;
-    const apiUrl = "http://localhost:8080/api/budgets/create";
     const budgetData = {
       "amount": this.amount,
       "categoryName": this.categoryName,
       "startDate": this.startDate,
       "endDate": this.endDate,
       "notice": this.notice,
-      "userId":1
+      "userId":localStorage.getItem('userid')
     }
-    
-    console.log('Sending budget data:', budgetData);
-
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
-    this.http.post(apiUrl, budgetData, { headers })
-      .subscribe({
+    this.budgetService.addBudget(budgetData).subscribe({
         next: (response : any) => {
           console.log('Budget created successfully:', response);
           alert('Budget created successfully');
@@ -77,7 +54,16 @@ export class BudgetFormComponent {
           console.error('Error creating budget:', error);
           alert('Error creating budget');
         }
-      });
+      })
   }
-
+    ngOnInit() {
+    this.budgetService.getAllCategory().subscribe({
+      next: (data) => {
+        this.categories = data;
+      },
+      error: (err) => {
+        console.error("Error loading categories", err);
+      }
+    });
+  }
 }

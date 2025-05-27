@@ -11,7 +11,7 @@ public class UserAcountService {
     @Autowired 
     private UserAccountRepository userAccountRepository;
 
-    public UserAccount getUserAccountById(int id) {
+    public UserAccount getUserAccountById(String id) {
         return userAccountRepository.findById(id).orElse(null);
     }
     

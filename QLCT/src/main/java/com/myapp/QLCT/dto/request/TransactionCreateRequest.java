@@ -11,13 +11,13 @@ public class TransactionCreateRequest {
     private LocalDateTime dateTime;
     private String moneySourceName;
     private String notice;
-    private Integer userId;
+    private String userId;
     private String categoryName;
     private String type;
     public TransactionCreateRequest() {
     }
     public TransactionCreateRequest(BigDecimal amount, LocalDateTime dateTime, String moneySourceName, String notice,
-            Integer userId, String categoryName, String type) {
+            String userId, String categoryName, String type) {
         this.amount = amount;
         this.dateTime = dateTime;
         this.moneySourceName = moneySourceName;
@@ -38,9 +38,7 @@ public class TransactionCreateRequest {
     public void setNotice(String notice) {
         this.notice = notice;
     }
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
+
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
@@ -59,14 +57,17 @@ public class TransactionCreateRequest {
     public String getNotice() {
         return notice;
     }
-    public Integer getUserId() {
-        return userId;
-    }
     public String getCategoryName() {
         return categoryName;
     }
     public String getType() {
         return type;
+    }
+    public String getUserId() {
+        return userId;
+    }
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
     
 }
