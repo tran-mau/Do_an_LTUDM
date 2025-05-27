@@ -156,8 +156,8 @@ export class BudgetTableComponent {
     this.totalsCalculated.emit({
       budget: totalBudget,
       spending: totalChi
-    }); 
-    
+    });
+
 
   }
 
@@ -170,18 +170,26 @@ export class BudgetTableComponent {
     this.selectedItem = { ...item }; // tạo bản sao để chỉnh sửa tạm
     this.selectedIndex = index;
     this.showModal = true;
+    console.log('budgetid la : ', this.selectedItem.budgetId);
   }
 
   saveEdit() {
+    const budgetId = this.selectedItem.budgetId;
     const userId = localStorage.getItem('userid');
     if (!userId) {
       console.error('UserID is null. Cannot update budget.');
       return;
     }
     const categoryName = this.selectedItem.category.name;
-    const updatedData = this.selectedItem;
+    const updatedData = {
+      amount: this.selectedItem.amount,
+      startDate: this.selectedItem.startDate,
+      endDate: this.selectedItem.endDate,
+      notice: this.selectedItem.notice,
+      categoryName: this.selectedItem.category.name 
+    };
 
-    this.budgetService.updateBudget(userId, categoryName, updatedData).subscribe({
+    this.budgetService.updateBudget(budgetId, updatedData).subscribe({
       next: () => {
         console.log('Update thành công');
         this.budgetItems[this.selectedIndex!] = { ...updatedData };
@@ -191,6 +199,7 @@ export class BudgetTableComponent {
         console.error('Lỗi cập nhật:', err);
       }
     });
+    this.applyTimeFilter();
   }
 
   deleteItem() {
@@ -210,6 +219,7 @@ export class BudgetTableComponent {
           console.error('Lỗi khi xóa ngân sách:', err);
         }
       });
+      this.applyTimeFilter(); // Cập nhật lại danh sách sau khi xóa
     }
   }
 

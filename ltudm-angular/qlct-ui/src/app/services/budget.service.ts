@@ -55,8 +55,8 @@ export class BudgetService {
         catchError(this.handleError)
       );
   }
-  updateBudget(userId: string, categoryName: string, updatedData: any): Observable<any> {
-    const url = `${this.apiUrl}/update/${userId}/${categoryName}`;
+  updateBudget(budgetId: number, updatedData: any): Observable<any> {
+    const url = `${this.apiUrl}/update/${budgetId}`;
     return this.http.put(url, updatedData, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       withCredentials: true

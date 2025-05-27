@@ -124,7 +124,68 @@ export class TransactionFormComponent {
         alert('Lỗi khi kiểm tra ngân sách: ' + (err.error?.message || 'Vui lòng thử lại.'));
       }
     });
+  }
+
+  checkBudgetBeforeAdd1() {
+  if (this.type !== 'chi') {
+    // Nếu không phải giao dịch chi, thêm luôn
+    this.addTransaction();
+    return;
+  }
+
+  const userId = localStorage.getItem('userid')!;
+  const categoryName = this.categoryName;
+  const amount = this.amount;
+
+  const date = new Date(this.dateTime);
+  const dateStr = date.toISOString().slice(0, 10); // yyyy-MM-dd
+
+  // Gọi API lấy ngân sách cho ngày cụ thể
+  this.transactionService.getBudgetAmount(userId, categoryName, dateStr).subscribe({
+    next: (budget: number) => {
+      if (!budget || budget <= 0) {
+        alert('⚠️ Không có ngân sách cho danh mục này hoặc ngân sách bằng 0.');
+        return;
+      }
+
+      // Gọi API lấy tổng chi trong tháng chứa ngày đó
+      const startDate = new Date(date.getFullYear(), date.getMonth(), 1).toISOString();
+      const endDate = new Date(date.getFullYear(), date.getMonth() + 1, 0, 23, 59, 59).toISOString();
+
+      const request = { userId, categoryName, startDate, endDate };
+      this.transactionService.getTotalChi(request).subscribe({
+        next: (totalChi: number) => {
+          const totalAfter = Number(totalChi || 0) + Number(amount);
+          if (totalAfter > budget) {
+            const confirmAdd = confirm(
+              `⚠️ Giao dịch này sẽ vượt ngân sách!\n\n` +
+              `- Ngân sách: ${budget.toLocaleString()} VND\n` +
+              `- Đã chi: ${totalChi.toLocaleString()} VND\n` +
+              `- Giao dịch mới: ${amount.toLocaleString()} VND\n` +
+              `- Tổng sau khi thêm: ${totalAfter.toLocaleString()} VND\n\n` +
+              `Bạn vẫn muốn thêm giao dịch?`
+            );
+            if (confirmAdd) {
+              this.addTransaction();
+            }
+          } else {
+            this.addTransaction();
+          }
+        },
+        error: (err) => {
+          console.error('Lỗi khi lấy tổng chi:', err);
+          alert('Không thể kiểm tra tổng chi. Vui lòng thử lại.');
+        }
+      });
+    },
+    error: (err) => {
+      console.error('Lỗi khi lấy ngân sách:', err);
+      alert('Không thể kiểm tra ngân sách. Vui lòng thử lại.');
+    }
+  });
 }
+
+
 
 
   ngOnInit() {

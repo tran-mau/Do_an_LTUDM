@@ -25,6 +25,8 @@ public interface BudgetRepository extends JpaRepository<Budget, Integer> {
 
     List<Budget> findByUser(User user);
 
+    List<Budget> findByUser_IdAndCategory_Name(String userId, String categoryName);
+
     // List<Budget> findAllByUser_UserId(String userId);
     @Query("SELECT b.amount FROM Budget b WHERE b.user.id = :userId AND b.category.name = :categoryName AND :date BETWEEN b.startDate AND b.endDate")
     BigDecimal findBudgetAmount(@Param("userId") String userId,

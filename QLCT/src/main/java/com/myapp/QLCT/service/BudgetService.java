@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -48,6 +49,32 @@ public class BudgetService {
         return budgetRepository.save(newBudget);
     }
 
+    public boolean isOverlapping(String userId, String categoryName, LocalDate newStart, LocalDate newEnd) {
+        List<Budget> budgets = budgetRepository.findByUser_IdAndCategory_Name(userId, categoryName);
+        for (Budget b : budgets) {
+            if (!(newEnd.isBefore(b.getStartDate()) || newStart.isAfter(b.getEndDate()))) {
+                return true; // giao nhau
+            }
+        }
+        return false;
+    }
+
+    public Budget getBudgetById(Integer budgetId) {
+        return budgetRepository.findById(budgetId)
+                .orElseThrow(() -> new RuntimeException("Budget not found with id: " + budgetId));
+    }
+
+    public Budget updateBudget(BudgetUpdateRequest request, Integer budgetId) {
+        Category category = categoryService.getCategoryByName(request.getCategoryName());
+        Budget budget = getBudgetById(budgetId);
+        budget.setAmount(request.getAmount());
+        budget.setStartDate(request.getStartDate());
+        budget.setEndDate(request.getEndDate());
+        budget.setNotice(request.getNotice());
+        budget.setCategory(category);
+        return budgetRepository.save(budget);
+    }
+
     public Budget getBudgetByCategoryAndUser(String categoryName, String userId) {
         Category category = categoryService.getCategoryByName(categoryName);
         User user = userAcountService.getUserAccountById(userId);
@@ -55,7 +82,7 @@ public class BudgetService {
                 .orElseThrow(() -> new RuntimeException("Budget not found for category and user"));
     }
 
-    public Budget updateBudget(BudgetUpdateRequest request, String userId, String categoryName) {
+    public Budget updateBudgetByCategory(BudgetUpdateRequest request, String userId, String categoryName) {
         Budget budget = getBudgetByCategoryAndUser(categoryName, userId);
         Category category = categoryService.getCategoryByName(request.getCategoryName());
         // UserAccount user = userAcountService.getUserAccountById(request.getUserId());
@@ -89,40 +116,38 @@ public class BudgetService {
     }
 
     public BigDecimal getBudgetAmount(String userId, String categoryName, LocalDate date) {
-    return budgetRepository.findBudgetAmount(userId, categoryName, date);
-}
-
+        return budgetRepository.findBudgetAmount(userId, categoryName, date);
+    }
 
     // public List<BudgetResponseDTO> getBudgetsWithRemaining(String userId) {
     // List<Budget> budgets = budgetRepository.findAllByUser_UserId(userId);
     // List<BudgetResponseDTO> result = new ArrayList<>();
 
     // for (Budget budget : budgets) {
-    //     BigDecimal totalSpent = transactionRepository.getTotalChiInPeriod(
-    //         userId,
-    //         budget.getCategory().getName(),
-    //         budget.getStartDate().atStartOfDay(),
-    //         budget.getEndDate().atTime(23, 59, 59)
-    //     );
+    // BigDecimal totalSpent = transactionRepository.getTotalChiInPeriod(
+    // userId,
+    // budget.getCategory().getName(),
+    // budget.getStartDate().atStartOfDay(),
+    // budget.getEndDate().atTime(23, 59, 59)
+    // );
 
-    //     BigDecimal remaining = budget.getAmount().subtract(
-    //         totalSpent != null ? totalSpent : BigDecimal.ZERO
-    //     );
+    // BigDecimal remaining = budget.getAmount().subtract(
+    // totalSpent != null ? totalSpent : BigDecimal.ZERO
+    // );
 
-    //     BudgetResponseDTO dto = new BudgetResponseDTO();
-    //     dto.setId(budget.getBudgetId());
-    //     dto.setAmount(budget.getAmount());
-    //     dto.setNotice(budget.getNotice());
-    //     dto.setStartDate(budget.getStartDate());
-    //     dto.setEndDate(budget.getEndDate());
-    //     dto.setCategoryName(budget.getCategory().getName());
-    //     dto.setRemainingAmount(remaining);
+    // BudgetResponseDTO dto = new BudgetResponseDTO();
+    // dto.setId(budget.getBudgetId());
+    // dto.setAmount(budget.getAmount());
+    // dto.setNotice(budget.getNotice());
+    // dto.setStartDate(budget.getStartDate());
+    // dto.setEndDate(budget.getEndDate());
+    // dto.setCategoryName(budget.getCategory().getName());
+    // dto.setRemainingAmount(remaining);
 
-    //     result.add(dto);
+    // result.add(dto);
     // }
 
     // return result;
-// }
+    // }
 
-    
 }

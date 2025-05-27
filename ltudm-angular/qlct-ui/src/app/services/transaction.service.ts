@@ -234,11 +234,11 @@ export class TransactionService {
     return this.http.get(this.apiUrl2, httpOptions)
   }
   getBudgetAmount(userId: string, categoryName: string, date: string) {
-  return this.http.get<number>(`http://localhost:8080/api/budget/getamountbudget`, {
+  return this.http.get<number>(`http://localhost:8080/api/budgets/getamountbudget`, {
     params: { userId, categoryName, date }
   });
 }
-
+  
 
 
   getTotalChi(request: any) {

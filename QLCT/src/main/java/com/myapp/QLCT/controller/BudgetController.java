@@ -34,9 +34,19 @@ public class BudgetController {
     private BudgetService budgetService;
     private CategoryService categoryService;
 
+    // @PostMapping("/create")
+    // public Budget createBudget(@RequestBody BudgetCreateRequest request) {
+    // return budgetService.createBudget(request);
+    // }
+
     @PostMapping("/create")
-    public Budget createBudget(@RequestBody BudgetCreateRequest request) {
-        return budgetService.createBudget(request);
+    public ResponseEntity<?> createBudget(@RequestBody BudgetCreateRequest req) {
+        if (budgetService.isOverlapping(req.getUserId(), req.getCategoryName(), req.getStartDate(), req.getEndDate())) {
+            return ResponseEntity.badRequest().body("Đã có ngân sách trùng thời gian cho danh mục này");
+        }
+
+        Budget created = budgetService.createBudget(req);
+        return ResponseEntity.ok(created);
     }
 
     @PostMapping("/hello")
@@ -70,12 +80,11 @@ public class BudgetController {
         return budgetService.getAllBudgetsByUserId(request.getUserId());
     }
 
-    @PutMapping("/update/{userId}/{categoryName}")
+    @PutMapping("/update/{budgetId}")
     public Budget updateBudgetByUserAndCategory(
-            @PathVariable String userId,
-            @PathVariable String categoryName,
+            @PathVariable Integer budgetId,
             @RequestBody BudgetUpdateRequest updatedBudgetData) {
-        return budgetService.updateBudget(updatedBudgetData, userId, categoryName);
+        return budgetService.updateBudget(updatedBudgetData, budgetId);
     }
 
     @GetMapping("/getamountbudget")

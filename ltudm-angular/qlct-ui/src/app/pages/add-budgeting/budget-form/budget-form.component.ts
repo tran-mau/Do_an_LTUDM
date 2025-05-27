@@ -20,10 +20,11 @@ export class BudgetFormComponent {
   startDate: Date;
   endDate: Date;
   notice: string;
-  userId : String;
-  categories:any[] = [];
-  
-  constructor( private router: Router , private budgetService : BudgetService) {
+  userId: String;
+  categories: any[] = [];
+  budgetItems: any[] = [];
+
+  constructor(private router: Router, private budgetService: BudgetService) {
     this.amount = 0;
     this.categoryName = '';
     this.startDate = new Date();
@@ -31,32 +32,60 @@ export class BudgetFormComponent {
     this.notice = '';
     this.userId = ""; // Assuming a default user ID for demonstration
   }
+  // 👉 Hàm kiểm tra trùng danh mục và thời gian
+  isOverlapping(categoryName: string, newStart: any, newEnd: any): boolean {
+  const start = new Date(newStart);
+  const end = new Date(newEnd);
+
+  return this.budgetItems.some(item => {
+    const sameCategory = item.category.name === categoryName;
+    const itemStart = new Date(item.startDate);
+    const itemEnd = new Date(item.endDate);
+
+    const newStartTime = start.getTime();
+    const newEndTime = end.getTime();
+    const itemStartTime = itemStart.getTime();
+    const itemEndTime = itemEnd.getTime();
+
+    const timeOverlap = !(newEndTime < itemStartTime || newStartTime > itemEndTime);
+
+    return sameCategory && timeOverlap;
+  });
+}
+
+
 
   addBudget() {
+
+    if (this.isOverlapping(this.categoryName, this.startDate, this.endDate)) {
+      alert('❌ Danh mục này đã có ngân sách trong khoảng thời gian trùng!');
+      return;
+    }
+
     const budgetData = {
       "amount": this.amount,
       "categoryName": this.categoryName,
       "startDate": this.startDate,
       "endDate": this.endDate,
       "notice": this.notice,
-      "userId":localStorage.getItem('userid')
+      "userId": localStorage.getItem('userid')
     }
     this.budgetService.addBudget(budgetData).subscribe({
-        next: (response : any) => {
-          console.log('Budget created successfully:', response);
-          alert('Budget created successfully');
-          this.router.navigate(['/budgeting']);
-        },
-        complete: () => {
-          console.log('Request completed');
-        },
-        error: (error : any) => {
-          console.error('Error creating budget:', error);
-          alert('Error creating budget');
-        }
-      })
+      next: (response: any) => {
+        console.log('Budget created successfully:', response);
+        alert('Budget created successfully');
+        this.router.navigate(['/budgeting']);
+      },
+      complete: () => {
+        console.log('Request completed');
+      },
+      error: (error: any) => {
+        console.error('Error creating budget:', error);
+        alert('Error creating budget');
+      }
+    })
   }
-    ngOnInit() {
+  ngOnInit() {
     this.budgetService.getAllCategory().subscribe({
       next: (data) => {
         this.categories = data;
@@ -65,5 +94,14 @@ export class BudgetFormComponent {
         console.error("Error loading categories", err);
       }
     });
+    this.budgetService.getAllBudget(localStorage.getItem('userid')).subscribe({
+      next: (data) => {
+        this.budgetItems = data;
+      },
+      error: (err) => {
+        console.error("Error loading budgets", err);
+      }
+    });
   }
+
 }
