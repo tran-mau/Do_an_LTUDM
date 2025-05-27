@@ -41,6 +41,9 @@ export class AuthService {
           if (response.userId) {
             localStorage.setItem('userid', response.userId); // Store userid if needed
           }
+          if (response.username) {
+            localStorage.setItem('username', response.username); // Store username if needed
+          }
           localStorage.setItem('is_authenticated', 'true');
         }),
         catchError(this.handleError)
