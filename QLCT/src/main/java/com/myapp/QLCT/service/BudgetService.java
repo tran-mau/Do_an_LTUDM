@@ -1,6 +1,7 @@
 package com.myapp.QLCT.service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,6 +87,11 @@ public class BudgetService {
         }
         return budgets;
     }
+
+    public BigDecimal getBudgetAmount(String userId, String categoryName, LocalDate date) {
+    return budgetRepository.findBudgetAmount(userId, categoryName, date);
+}
+
 
     // public List<BudgetResponseDTO> getBudgetsWithRemaining(String userId) {
     // List<Budget> budgets = budgetRepository.findAllByUser_UserId(userId);

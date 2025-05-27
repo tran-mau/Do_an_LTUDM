@@ -1,9 +1,12 @@
 package com.myapp.QLCT.controller;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -75,9 +78,20 @@ public class BudgetController {
         return budgetService.updateBudget(updatedBudgetData, userId, categoryName);
     }
 
-    //  @GetMapping("/with-remaining")
-    // public List<BudgetResponseDTO> getBudgetsWithRemaining(@RequestParam String userId) {
-    //     return budgetService.getBudgetsWithRemaining(userId);
+    @GetMapping("/getamountbudget")
+    public ResponseEntity<BigDecimal> getBudgetByCategory(
+            @RequestParam String userId,
+            @RequestParam String categoryName,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+
+        BigDecimal budgetAmount = budgetService.getBudgetAmount(userId, categoryName, date);
+        return ResponseEntity.ok(budgetAmount != null ? budgetAmount : BigDecimal.ZERO);
+    }
+
+    // @GetMapping("/with-remaining")
+    // public List<BudgetResponseDTO> getBudgetsWithRemaining(@RequestParam String
+    // userId) {
+    // return budgetService.getBudgetsWithRemaining(userId);
     // }
 
 }

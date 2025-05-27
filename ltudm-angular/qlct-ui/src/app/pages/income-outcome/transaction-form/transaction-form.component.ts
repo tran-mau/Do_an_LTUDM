@@ -22,7 +22,7 @@ export class TransactionFormComponent {
   @ViewChild('addTransactionForm') addTransactionForm!: NgForm;
   amount: number;
   categoryName: string;
-  dateTime: String;
+  dateTime: string;
   notice: string;
   userId: string;
   moneySourceName: string;
@@ -66,6 +66,67 @@ export class TransactionFormComponent {
       }
     )
   }
+
+  checkBudgetBeforeAdd() {
+    // if (!this.addTransactionForm.valid || !this.userId || !this.categoryName || !this.type) {
+    //   alert('Vui lòng điền đầy đủ thông tin giao dịch.');
+    //   return;
+    // }
+
+    if (this.type !== 'chi') {
+      // Nếu không phải giao dịch chi, thêm ngay mà không kiểm tra ngân sách
+      this.addTransaction();
+      return;
+    }
+
+    const date = new Date(this.dateTime);
+    const checkDate = date.toISOString().slice(0, 10); // yyyy-MM-dd
+    const startDate = new Date(date.getFullYear(), date.getMonth(), 1).toISOString();
+    const endDate = new Date(date.getFullYear(), date.getMonth() + 1, 0, 23, 59, 59).toISOString();
+
+    // Lấy ngân sách cho danh mục và ngày cụ thể
+    this.transactionService.getBudgetAmount(this.userId, this.categoryName, checkDate).subscribe({
+      next: (budget: number) => {
+        if (!budget || budget <= 0) {
+          alert('Không tìm thấy ngân sách cho danh mục này hoặc ngân sách bằng 0.');
+          return;
+        }
+
+        // Lấy tổng chi trong khoảng thời gian
+        const request = { userId: this.userId, categoryName: this.categoryName, startDate, endDate };
+        this.transactionService.getTotalChi(request).subscribe({
+          next: (totalChi: number) => {
+            const totalAfter = Number(totalChi || 0) + Number(this.amount);
+            if (totalAfter > budget) {
+              const confirmAdd = confirm(
+                `⚠️ Giao dịch này sẽ vượt ngân sách!\n` +
+                `- Ngân sách: ${budget.toLocaleString()} VND\n` +
+                `- Tổng chi hiện tại: ${totalChi.toLocaleString()} VND\n` +
+                `- Số tiền giao dịch mới: ${this.amount.toLocaleString()} VND\n` +
+                `- Tổng chi sau khi thêm: ${totalAfter.toLocaleString()} VND\n` +
+                `Bạn có muốn tiếp tục thêm giao dịch không?`
+              );
+              if (confirmAdd) {
+                this.addTransaction();
+              }
+            } else {
+              this.addTransaction();
+            }
+          },
+          error: (err) => {
+            console.error('Error fetching total chi:', err);
+            alert('Lỗi khi kiểm tra tổng chi: ' + (err.error?.message || 'Vui lòng thử lại.'));
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Error fetching budget amount:', err);
+        alert('Lỗi khi kiểm tra ngân sách: ' + (err.error?.message || 'Vui lòng thử lại.'));
+      }
+    });
+}
+
+
   ngOnInit() {
     this.transactionService.getAllCategory().subscribe({
       next: (data) => {
