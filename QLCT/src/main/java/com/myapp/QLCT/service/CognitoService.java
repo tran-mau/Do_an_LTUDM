@@ -247,4 +247,79 @@ public class CognitoService {
             throw new RuntimeException("Error signing out: " + e.getMessage());
         }
     }
+
+   public Map<String, String> resetPassword(String username, String newPassword) {
+        Map<String, String> response = new HashMap<>();
+        
+        try {
+            AWSCognitoIdentityProvider cognitoClient = createCognitoClient();
+
+            // Tạo yêu cầu reset password
+            AdminSetUserPasswordRequest resetPasswordRequest = new AdminSetUserPasswordRequest()
+                    .withUserPoolId(userPoolId)
+                    .withUsername(username)
+                    .withPassword(newPassword)
+                    .withPermanent(true); // QUAN TRỌNG: Bỏ comment dòng này để tránh user phải đổi mật khẩu lần đầu đăng nhập
+
+            // Gọi API của AWS Cognito để reset password
+            AdminSetUserPasswordResult result = cognitoClient.adminSetUserPassword(resetPasswordRequest);
+            
+            // Tùy chọn: Đánh dấu email/phone đã verified
+            updateUserVerificationStatus(cognitoClient, username);
+            
+            response.put("status", "SUCCESS");
+            response.put("message", "Password reset successfully");
+            response.put("username", username);
+            
+            return response;
+            
+        } catch (UserNotFoundException e) {
+            response.put("status", "ERROR");
+            response.put("message", "User not found: " + username);
+            response.put("errorCode", "USER_NOT_FOUND");
+            return response;
+            
+        } catch (InvalidPasswordException e) {
+            response.put("status", "ERROR");
+            response.put("message", "Invalid password format: " + e.getMessage());
+            response.put("errorCode", "INVALID_PASSWORD");
+            return response;
+            
+        } catch (InvalidParameterException e) {
+            response.put("status", "ERROR");
+            response.put("message", "Invalid parameter: " + e.getMessage());
+            response.put("errorCode", "INVALID_PARAMETER");
+            return response;
+            
+        } catch (TooManyRequestsException e) {
+            response.put("status", "ERROR");
+            response.put("message", "Too many requests. Please try again later.");
+            response.put("errorCode", "TOO_MANY_REQUESTS");
+            return response;
+            
+        } catch (Exception e) {
+            response.put("status", "ERROR");
+            response.put("message", "Error resetting password: " + e.getMessage());
+            response.put("errorCode", "UNKNOWN_ERROR");
+            return response;
+        }
+    }
+    
+    // Method để đánh dấu user đã verified email/phone
+    private void updateUserVerificationStatus(AWSCognitoIdentityProvider cognitoClient, String username) {
+        try {
+            AdminUpdateUserAttributesRequest updateRequest = new AdminUpdateUserAttributesRequest()
+                    .withUserPoolId(userPoolId)
+                    .withUsername(username)
+                    .withUserAttributes(
+                            new AttributeType().withName("email_verified").withValue("true"),
+                            new AttributeType().withName("phone_number_verified").withValue("true")
+                    );
+                    
+            cognitoClient.adminUpdateUserAttributes(updateRequest);
+        } catch (Exception e) {
+            // Log error nhưng không throw exception vì việc update verification không critical
+            System.err.println("Warning: Could not update verification status for user " + username + ": " + e.getMessage());
+        }
+    }
 }
