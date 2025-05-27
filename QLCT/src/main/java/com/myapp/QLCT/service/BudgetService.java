@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.myapp.QLCT.dto.request.BudgetCreateRequest;
 import com.myapp.QLCT.dto.request.BudgetUpdateRequest;
 import com.myapp.QLCT.entity.Budget;
+import com.myapp.QLCT.entity.User;
 import com.myapp.QLCT.entity.Category;
-import com.myapp.QLCT.entity.UserAccount;
 import com.myapp.QLCT.repository.BudgetRepository;
 import com.myapp.QLCT.repository.TransactionRepository;
 
@@ -34,9 +34,7 @@ public class BudgetService {
 
     public Budget createBudget(BudgetCreateRequest budget) {
         Category category = categoryService.getCategoryByName(budget.getCategoryName());
-        // UserAccount userAccount =
-        // userAcountService.getUserAccountById(budget.getUserId());
-        UserAccount userAccount = userAcountService.getUserAccountById(budget.getUserId());
+        User user = userAcountService.getUserAccountById(budget.getUserId());
 
         Budget newBudget = new Budget();
         newBudget.setAmount(budget.getAmount());
@@ -44,14 +42,14 @@ public class BudgetService {
         newBudget.setEndDate(budget.getEndDate());
         newBudget.setCategory(category);
         newBudget.setNotice(budget.getNotice());
-        newBudget.setUser(userAccount);
+        newBudget.setUser(user);
 
         return budgetRepository.save(newBudget);
     }
 
     public Budget getBudgetByCategoryAndUser(String categoryName, String userId) {
         Category category = categoryService.getCategoryByName(categoryName);
-        UserAccount user = userAcountService.getUserAccountById(userId);
+        User user = userAcountService.getUserAccountById(userId);
         return budgetRepository.findByCategoryAndUser(category, user)
                 .orElseThrow(() -> new RuntimeException("Budget not found for category and user"));
     }
@@ -81,7 +79,7 @@ public class BudgetService {
     }
 
     public List<Budget> getAllBudgetsByUserId(String userId) {
-        UserAccount user = userAcountService.getUserAccountById(userId);
+        User user = userAcountService.getUserAccountById(userId);
         List<Budget> budgets = budgetRepository.findByUser(user);
         if (budgets.isEmpty()) {
             throw new RuntimeException("No budgets found for user");

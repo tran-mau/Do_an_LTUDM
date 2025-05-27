@@ -14,25 +14,22 @@ public class CorsConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         
-        // Allow requests from Angular application
-        config.addAllowedOrigin("http://localhost:4200");
+        // Sử dụng allowedOriginPattern thay vì allowedOrigin
+        config.addAllowedOriginPattern("http://localhost:4200");
         
-        // Allow common HTTP methods
-        config.addAllowedMethod("GET");
-        config.addAllowedMethod("POST");
-        config.addAllowedMethod("PUT");
-        config.addAllowedMethod("DELETE");
-        config.addAllowedMethod("OPTIONS");
+        // Cho phép các methods
+        config.addAllowedMethod("*");
         
-        // Allow all headers
+        // Cho phép các headers
         config.addAllowedHeader("*");
         
-        // Allow credentials like cookies, authorization headers, etc.
+        // Cho phép credentials
         config.setAllowCredentials(true);
         
-        // Apply this configuration to all paths
-        source.registerCorsConfiguration("/**", config);
+        // Thiết lập max age
+        config.setMaxAge(3600L);
         
+        source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
 }

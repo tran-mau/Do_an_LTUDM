@@ -19,20 +19,20 @@ public class Transaction {
     @Column(name = "date_time", nullable = false)
     private LocalDateTime dateTime;
 
-    @Column(name = "notice", length = 255)
-    private String notice;
-
     @ManyToOne
     @JoinColumn(name = "moneysource_id")
     private MoneySource moneySource;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserAccount user;
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", referencedColumnName = "category_id")
     private Category category;
+
+    @Column(name = "notice", nullable = false)
+    private String notice;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -42,49 +42,21 @@ public class Transaction {
         thu, chi
     }
 
-    public Transaction() {
-    }
+    // Constructors
+    public Transaction() {}
 
-    public Transaction(Integer transactionId, BigDecimal amount, LocalDateTime dateTime, String notice,
-            MoneySource moneySource, UserAccount user, Category category, TransactionType type) {
-        this.transactionId = transactionId;
+    public Transaction(BigDecimal amount, LocalDateTime dateTime, MoneySource moneySource, User user,
+                       Category category, TransactionType type, String notice) {
         this.amount = amount;
         this.dateTime = dateTime;
-        this.notice = notice;
         this.moneySource = moneySource;
         this.user = user;
         this.category = category;
         this.type = type;
-    }
-
-    public Transaction(Integer transactionId, BigDecimal amount, LocalDateTime dateTime, String notice,
-            UserAccount user, Category category, TransactionType type) {
-        this.transactionId = transactionId;
-        this.amount = amount;
-        this.dateTime = dateTime;
-        this.notice = notice;
-        this.user = user;
-        this.category = category;
-        this.type = type;
-    }
-
-    public void setNotice(String notice) {
         this.notice = notice;
     }
 
-    public String getNotice() {
-        return notice;
-    }
-
-    public Transaction(Integer transactionId, BigDecimal amount, LocalDateTime dateTime, UserAccount user, Category category, TransactionType type) {
-        this.transactionId = transactionId;
-        this.amount = amount;
-        this.dateTime = dateTime;
-        this.user = user;
-        this.category = category;
-        this.type = type;
-    }
-
+    // Getters and Setters
     public Integer getTransactionId() {
         return transactionId;
     }
@@ -109,11 +81,19 @@ public class Transaction {
         this.dateTime = dateTime;
     }
 
-    public UserAccount getUser() {
+    public MoneySource getMoneySource() {
+        return moneySource;
+    }
+
+    public void setMoneySource(MoneySource moneySource) {
+        this.moneySource = moneySource;
+    }
+
+    public User getUser() {
         return user;
     }
 
-    public void setUser(UserAccount user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
@@ -133,11 +113,11 @@ public class Transaction {
         this.type = type;
     }
 
-    public MoneySource getMoneySource() {
-        return moneySource;
+    public String getNotice() {
+        return notice;
     }
 
-    public void setMoneySource(MoneySource moneySource) {
-        this.moneySource = moneySource;
+    public void setNotice(String notice) {
+        this.notice = notice;
     }
 }
