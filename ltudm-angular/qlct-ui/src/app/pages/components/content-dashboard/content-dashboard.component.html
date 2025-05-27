@@ -1,89 +1,91 @@
-<div class="content">
-    <!-- Stats Cards -->
-    <div class="stats">
-        <div class="stat-card">
-            <div class="stat-icon">
-                <i class="fas fa-wallet"></i>
-            </div>
-            <div class="stat-info">
-                <h4>Số dư hiện tại</h4>
-                <p id="balance"></p>
-            </div>
-        </div>
-        <div class="stat-card income">
-            <div class="stat-icon">
-                <i class="fas fa-arrow-down"></i>
-            </div>
-            <div class="stat-info">
-                <h4>Số tiền vào tháng này</h4>
-                <p id="amount-in"></p>
-            </div>
-        </div>
-        <div class="stat-card expense">
-            <div class="stat-icon">
-                <i class="fas fa-arrow-up"></i>
-            </div>
-            <div class="stat-info">
-                <h4>Số tiền ra tháng này</h4>
-                <p id="amount-out"></p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Charts Section -->
-    <div class="charts">
-        <div class="chart-box">
-            <div class="chart-header">
-                <h4>Thu nhập</h4>
-                <select class="chart-period">
-                    <option>Tháng này</option>
-                    <option>Quý này</option>
-                    <option>Năm nay</option>
-                </select>
-            </div>
-            <div class="chart-wrapper">
-                <canvas id="incomeChart"></canvas>
-            </div>
-        </div>
-        <div class="chart-box">
-            <div class="chart-header">
-                <h4>Chi tiêu</h4>
-                <select class="chart-period">
-                    <option>Tháng này</option>
-                    <option>Quý này</option>
-                    <option>Năm nay</option>
-                </select>
-            </div>
-            <div class="chart-wrapper">
-                <canvas id="expenseChart"></canvas>
-            </div>
-        </div>
-        <div class="recent-transactions">
-            <div class="transactions-header">
-                <h4>Giao dịch gần đây</h4>
-                <button class="add-transaction"><i class="fas fa-plus"></i></button>
-            </div>
-            <!-- Dynamic transaction list - will be populated by TypeScript -->
-            <ul>
-                <!-- Fallback content in case API fails -->
-                <li *ngIf="transactionHistory.length === 0" class="no-transactions">
-                    <span>Không có giao dịch nào</span>
-                </li>
-            </ul>
-            <a href="/transaction" class="view-all">Xem tất cả <i class="fas fa-chevron-right"></i></a>
-        </div>
-    </div>
-
-    <!-- Monthly Chart -->
-    <div class="monthly-chart">
-        <div class="chart-header">
-            <h4>Biểu đồ thu chi theo tháng</h4>
-            <select class="chart-period">
-                <option>Năm 2023</option>
-                <option>Năm 2022</option>
-                <option>Năm 2021</option>
-            </select>
-        </div>
-        <canvas id="monthlyChart"></canvas>
-    </div>
+<div class="content">     
+    <!-- Stats Cards -->     
+    <div class="stats">         
+        <div class="stat-card">             
+            <div class="stat-icon">                 
+                <i class="fas fa-wallet"></i>             
+            </div>             
+            <div class="stat-info">                 
+                <h4>Số dư hiện tại</h4>                 
+                <p id="balance"></p>             
+            </div>         
+        </div>         
+        <div class="stat-card income">             
+            <div class="stat-icon">                 
+                <i class="fas fa-arrow-down"></i>             
+            </div>             
+            <div class="stat-info">                 
+                <h4>Số tiền vào tháng này</h4>                 
+                <p id="amount-in"></p>             
+            </div>         
+        </div>         
+        <div class="stat-card expense">             
+            <div class="stat-icon">                 
+                <i class="fas fa-arrow-up"></i>             
+            </div>             
+            <div class="stat-info">                 
+                <h4>Số tiền ra tháng này</h4>                 
+                <p id="amount-out"></p>             
+            </div>         
+        </div>     
+    </div>      
+    
+    <!-- Charts Section -->     
+    <div class="charts">         
+        <div class="chart-box">             
+            <div class="chart-header">                 
+                <h4>Thu nhập</h4>                 
+                <select class="chart-period">                     
+                    <option>Tháng này</option>                     
+                    <option>Quý này</option>                     
+                    <option>Năm nay</option>                 
+                </select>             
+            </div>             
+            <div class="chart-wrapper">                 
+                <canvas id="incomeChart"></canvas>             
+            </div>         
+        </div>         
+        <div class="chart-box">             
+            <div class="chart-header">                 
+                <h4>Chi tiêu</h4>                 
+                <select class="chart-period">                     
+                    <option>Tháng này</option>                     
+                    <option>Quý này</option>                     
+                    <option>Năm nay</option>                 
+                </select>             
+            </div>             
+            <div class="chart-wrapper">                 
+                <canvas id="expenseChart"></canvas>             
+            </div>         
+        </div>         
+        <div class="recent-transactions">             
+            <div class="transactions-header">                 
+                <h4>Giao dịch gần đây</h4>                 
+                <button class="add-transaction"><i class="fas fa-plus"></i></button>             
+            </div>             
+            <!-- Dynamic transaction list - will be populated by TypeScript -->             
+            <ul>                 
+                <!-- Fallback content in case API fails -->                 
+                <li *ngIf="transactionHistory.length === 0" class="no-transactions">                     
+                    <span>Không có giao dịch nào</span>                 
+                </li>             
+            </ul>             
+            <a href="/transaction" class="view-all">Xem tất cả <i class="fas fa-chevron-right"></i></a>         
+        </div>     
+    </div>      
+    
+    <!-- Monthly Chart -->     
+    <div class="monthly-chart">         
+        <div class="chart-header">             
+            <h4>Biểu đồ thu chi theo tháng</h4>             
+            <select class="chart-period" 
+                    [(ngModel)]="selectedOption" 
+                    (ngModelChange)="onOptionChange()">                 
+                <option value="year2025">Năm 2025</option>                 
+                <option value="year2024">Năm 2024</option>                 
+                <option value="year2023">Năm 2023</option>             
+            </select>         
+        </div>         
+        <canvas id="monthlyChart"></canvas>     
+    </div> 
 </div>
