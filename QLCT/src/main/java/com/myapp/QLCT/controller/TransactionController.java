@@ -30,8 +30,8 @@ public class TransactionController {
     private TransactionService transactionService;
 
     @GetMapping("")
-    public List<transactionDTO> showTransactionEntity() {
-        return transactionService.showTransactionDTO();
+    public List<transactionDTO> showTransactionEntity(@RequestParam String userId) {
+        return transactionService.showTransactionDTO(userId);
     }
 
     @DeleteMapping("/remove")

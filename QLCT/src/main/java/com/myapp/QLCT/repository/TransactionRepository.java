@@ -80,4 +80,8 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
                      "FROM Transaction t WHERE t.user.id = :userId ORDER BY t.dateTime DESC LIMIT 4")
        List<TransactionSummaryDTO> findTop4ByUserId(@Param("userId") String userId);
 
+       @Query("SELECT t FROM Transaction t WHERE t.user.id = :userId ORDER BY t.dateTime DESC") 
+List<Transaction> findByUserId(@Param("userId") String userId);
+
+
 }

@@ -28,16 +28,19 @@ export class TransactionService {
   }
 
   showTransactionHistory(): Observable<any> {
+    const userId = localStorage.getItem('userid');
+
+
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       }),
-      withCredentials: true // Include if your API requires credentials
+      withCredentials: true
     };
 
-    return this.http.get<any[]>(`${this.apiUrl}/transactions`, httpOptions)
+    return this.http.get<any[]>(`${this.apiUrl}/transactions?userId=${userId}`, httpOptions)
       .pipe(
-        retry(1), // Retry once before failing
+        retry(1),
         catchError(this.handleError)
       );
   }

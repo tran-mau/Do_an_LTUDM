@@ -73,8 +73,8 @@ public class TransactionService {
         return transactionRepository.findTop4ByUserId(userId);
     }
 
-    public List<transactionDTO> showTransactionDTO() {
-        List<Transaction> transactionEntities = transactionRepository.findAll();
+    public List<transactionDTO> showTransactionDTO(String  userId) {
+        List<Transaction> transactionEntities = transactionRepository.findByUserId(userId);
         return transactionEntities.stream()
                     .map(transactionDTO::new)
                     .toList();
@@ -146,4 +146,5 @@ public class TransactionService {
     // return transactionRepository.save(transaction);
 
     // }
+
 }
