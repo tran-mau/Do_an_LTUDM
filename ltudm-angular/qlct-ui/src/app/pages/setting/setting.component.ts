@@ -1,39 +1,74 @@
 import { Component, OnInit } from '@angular/core';
-import { EditProfileComponent } from './content-card/edit-profile/edit-profile.component';
-import { AccountSectionComponent } from './content-card/account-section/account-section.component';
-import { InterfaceSectionComponent } from './content-card/interface-section/interface-section.component';
+import { Router, ActivatedRoute } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { AccountSectionComponent } from './content-card/account-section/account-section.component';
+import { EditProfileComponent } from './content-card/edit-profile/edit-profile.component';
+import { InterfaceSectionComponent } from './content-card/interface-section/interface-section.component';
 import { LogoutSectionComponent } from './content-card/logout-section/logout-section.component';
+import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-setting',
+  standalone: true,
   imports: [
     EditProfileComponent,
     AccountSectionComponent,
     InterfaceSectionComponent,
     LogoutSectionComponent,
-    CommonModule
+    CommonModule,
+    HttpClientModule
   ],
   templateUrl: './setting.component.html',
-  styleUrl: './setting.component.css'
+  styleUrls: ['./setting.component.css']
 })
 export class SettingComponent implements OnInit {
-  activeSection: String = 'edit-profile';
+  activeSection: string = 'edit-profile';
+  profileData: any = null; 
 
-  constructor() { }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private profileService: ProfileService 
+  ) {}
+
   ngOnInit(): void {
-    this.setupMenuListeners();
+    this.route.queryParams.subscribe(params => {
+      if (params['section']) {
+        this.activeSection = params['section'];
+      } else {
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: { section: 'edit-profile' },
+          replaceUrl: true
+        });
+      }
+
+      if (params['section'] === 'edit-profile') {
+        this.loadProfile();
+      }
+    });
   }
 
-  setupMenuListeners() {
-    const menuItems = document.querySelectorAll('.menu-item');
+  loadProfile() {
+    this.profileService.getUserProfile().subscribe({
+      next: (data: any) => {
+        this.profileData = data;
+      },
+      error: (err: any) => {
+        console.error('Failed to load profile:', err);
+      }
+    });
+  }
 
-    menuItems.forEach(item => {
-      item.addEventListener('click', () => {
-        this.activeSection = item.getAttribute('data-section') || 'edit-profile';
-        menuItems.forEach(i => i.classList.remove('active'));
-        item.classList.add('active');
-      });
+  onMenuClick(section: string) {
+    if (section === this.activeSection) return;
+
+    this.activeSection = section;
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { section },
+      queryParamsHandling: 'merge'
     });
   }
 }

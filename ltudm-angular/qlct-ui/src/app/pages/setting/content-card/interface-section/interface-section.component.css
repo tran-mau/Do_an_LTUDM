@@ -1,123 +1,131 @@
+.section {
+  padding: 20px;
+  max-width: 100%;
+  margin: 0 auto;
+  background-color: var(--app-background);
+  font-family: var(--app-font);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
 h2 {
-    color: #2F3478;
-    margin-bottom: 20px;
-    font-size: 22px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
+  color: #2f3478;
+  margin-bottom: 20px;
+  font-size: 22px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.error-message {
+  color: #ff4d4f;
+  margin-bottom: 10px;
+  font-size: 14px;
 }
 
 .interface-option {
-    display: flex;
-    align-items: center;
-    padding: 15px 0;
-    border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid #eee;
 }
 
 .interface-option:last-child {
-    border-bottom: none;
-    margin-bottom: 20px;
+  border-bottom: none;
+  margin-bottom: 20px;
 }
 
 .option-label {
-    width: 150px;
-    font-weight: bold;
-    color: #2F3478;
+  width: 150px;
+  font-weight: bold;
+  color: #2f3478;
 }
 
 .option-value {
-    flex: 1;
-    color: #333;
-}
-
-.change-button {
-    background-color: #2F3478;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 5px 15px;
-    cursor: pointer;
-    font-size: 12px;
-    margin-left: 10px;
-}
-
-.change-button:hover {
-    background-color: #1e1f4f;
+  flex: 1;
+  color: #333;
+  display: flex;
+  align-items: center;
 }
 
 .color-options {
-    display: flex;
-    gap: 10px;
+  display: flex;
+  gap: 15px; /* Tăng khoảng cách giữa các vòng tròn màu */
 }
 
 .color-circle {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    cursor: pointer;
-    border: 2px solid transparent;
+  width: 28px; /* Tăng kích thước vòng tròn */
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.2s ease; /* Thêm hiệu ứng hover */
+}
+
+.color-circle:hover {
+  transform: scale(1.1); /* Phóng to khi hover */
 }
 
 .color-circle.selected {
-    border-color: #2F3478;
+  border-color: #2f3478;
 }
 
-.color-circle.blue {
-    background-color: #2F3478;
+.font-options {
+  display: flex;
+  flex-direction: row; /* Đổi thành hàng ngang */
+  gap: 10px; /* Tăng khoảng cách giữa các nút font */
+  margin-left: 15px;
 }
 
-.color-circle.white {
-    background-color: #ffffff;
-    border: 1px solid #ddd;
+.font-options button {
+  padding: 5px 12px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  background: none;
+  font-family: var(--app-font);
+  border-radius: 5px;
+  transition: background-color 0.2s ease; /* Thêm hiệu ứng hover */
 }
 
-.color-circle.gray {
-    background-color: #cccccc;
+.font-options button:hover {
+  background-color: #f0f0f0; /* Hiệu ứng hover */
 }
 
-.slider-container {
-    width: 300px;
-    display: flex;
-    align-items: center;
+.font-options button.selected {
+  border-color: #2f3478;
+  background-color: #e0e7ff; /* Màu nền nhẹ khi được chọn */
 }
 
-.slider {
-    flex: 1;
-    -webkit-appearance: none;
-    height: 5px;
-    border-radius: 5px;
-    background: #ddd;
-    outline: none;
+.change-button {
+  background-color: #2f3478;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 15px;
+  cursor: pointer;
+  font-size: 12px;
+  margin-left: 10px;
 }
 
-.slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    background: #2F3478;
-    cursor: pointer;
+.change-button:hover {
+  background-color: #1e1f4f;
 }
 
-.slider-value {
-    margin-left: 15px;
-    font-weight: 500;
-    width: 50px;
-    text-align: right;
+.action-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center; /* Căn giữa nút Reset */
 }
 
 .reset-button {
-    background-color: #2F3478;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 14px;
-    display: block;
-    margin-top: 20px;
+  background-color: #2f3478;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 14px;
 }
 
 .reset-button:hover {
-    background-color: #1e1f4f;
+  background-color: #1e1f4f;
 }

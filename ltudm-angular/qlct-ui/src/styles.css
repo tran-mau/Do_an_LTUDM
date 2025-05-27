@@ -1,15 +1,36 @@
-/* You can add global styles to this file, and also import other style files */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+/* src/styles.css */
+/* Import Google Fonts for Inter, Roboto, and Georgia */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Roboto:wght@400;500;700&family=Georgia&display=swap');
+
+/* Define CSS variables with default values */
+:root {
+  --app-background: #f6f6fc;
+  --app-font: 'Inter', sans-serif;
 }
 
+/* Reset default margins and ensure box-sizing */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--app-font);
+}
 
-body,
-html {
-    height: 100%;
-    background-color: #f6f6fc;
-    color: #333333;
+/* Apply background and font to html and body */
+html,
+body {
+  height: 100%;
+  background-color: var(--app-background);
+  color: #333333;
+  font-family: var(--app-font);
+}
+
+/* Ensure all components inherit the styles */
+app-root,
+app-account-section,
+app-interface-section,
+[ng-component] {
+  background-color: var(--app-background);
+  font-family: var(--app-font);
+  min-height: 100%;
 }
