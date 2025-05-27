@@ -3,13 +3,13 @@ package com.myapp.QLCT.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "useraccount")
+@Table(name = "users")
 public class UserAccount {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "account_id")
-    private Integer accountId;
+    @Column(name = "id")
+    private String accountId;
 
     @Column(nullable = false, unique = true, length = 50)
     private String username;
@@ -36,7 +36,7 @@ public class UserAccount {
     public UserAccount() {
     }
 
-    public UserAccount(Integer accountId, String username, String password, String name, Gender gender, String address, String email) {
+    public UserAccount(String accountId, String username, String password, String name, Gender gender, String address, String email) {
         this.accountId = accountId;
         this.username = username;
         this.password = password;
@@ -46,13 +46,6 @@ public class UserAccount {
         this.email = email;
     }
 
-    public Integer getAccountId() {
-        return accountId;
-    }
-
-    public void setAccountId(Integer accountId) {
-        this.accountId = accountId;
-    }
 
     public String getUsername() {
         return username;
@@ -100,6 +93,14 @@ public class UserAccount {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
     }
 
 }

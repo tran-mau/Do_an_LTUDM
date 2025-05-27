@@ -7,6 +7,9 @@ import { catchError, map, retry } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class TransactionService {
+  private apiUrlCreate = 'http://localhost:8080/api/transactions/create';
+  private apiUrl1 = "http://localhost:8080/api/categories/allcategories";
+  private apiUrl2 = "http://localhost:8080/api/moneysource/allmoneysource";
   private apiUrl = 'http://localhost:8080/api';
 
   constructor(private http: HttpClient) { }
@@ -28,16 +31,19 @@ export class TransactionService {
   }
 
   showTransactionHistory(): Observable<any> {
+    const userId = localStorage.getItem('userid');
+
+
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       }),
-      withCredentials: true // Include if your API requires credentials
+      withCredentials: true
     };
 
-    return this.http.get<any[]>(`${this.apiUrl}/transaction`, httpOptions)
+    return this.http.get<any[]>(`${this.apiUrl}/transactions?userId=${userId}`, httpOptions)
       .pipe(
-        retry(1), // Retry once before failing
+        retry(1),
         catchError(this.handleError)
       );
   }
@@ -50,22 +56,36 @@ export class TransactionService {
       withCredentials: true // Include if your API requires credentials
     };
 
-    return this.http.delete<any[]>(`${this.apiUrl}/transaction/remove?id=${transactionId}`, httpOptions)
+    return this.http.delete<any[]>(`${this.apiUrl}/transactions/remove?id=${transactionId}`, httpOptions)
       .pipe(
         retry(1),
         catchError(this.handleError)
       );
   }
 
-  updateTransaction(transactionId: string, transactionData: any): Observable<any> {
+  updateTransaction(transactionId: number, transactionData: any): Observable<any> {
+    const token = localStorage.getItem('access_token');
+
+    console.log('=== ANGULAR UPDATE REQUEST ===');
+    console.log('Transaction ID:', transactionId);
+    console.log('Transaction Data:', transactionData);
+    console.log('Token:', token ? 'Present' : 'Missing');
+
+    if (!token) {
+      return throwError(() => new Error('Access token is missing'));
+    }
+
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
-      withCredentials: true // Include if your API requires credentials
+      withCredentials: true
     };
 
-    return this.http.put<any>(`${this.apiUrl}/transaction/update?id=${transactionId}`, transactionData, httpOptions)
+    const url = `${this.apiUrl}/transactions/update?id=${transactionId}`;
+    console.log('Request URL:', url);
+
+    return this.http.put<any>(url, transactionData, httpOptions)
       .pipe(
         catchError(this.handleError)
       );
@@ -93,7 +113,7 @@ export class TransactionService {
   getAmountInTransaction(month: number, year: number): Observable<number> {
     const id = localStorage.getItem('userid');
     const token = localStorage.getItem('access_token');
-    
+
 
     if (!id || !token) {
       return throwError(() => new Error('User ID or token is missing'));
@@ -188,4 +208,45 @@ export class TransactionService {
       catchError(this.handleError)
     );
   }
+  addTransaction(transactionData: any): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      withCredentials: true // Include if your API requires credentials
+    };
+    return this.http.post(this.apiUrlCreate, transactionData, httpOptions)
+  }
+  getAllCategory(): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      withCredentials: true // Include if your API requires credentials
+    };
+    return this.http.get(this.apiUrl1, httpOptions)
+  }
+
+  getAllMoneySource(): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      withCredentials: true // Include if your API requires credentials
+    };
+    return this.http.get(this.apiUrl2, httpOptions)
+  }
+  getBudgetAmount(userId: string, categoryName: string, date: string) {
+  return this.http.get<number>(`http://localhost:8080/api/budgets/getamountbudget`, {
+    params: { userId, categoryName, date }
+  });
+}
+  
+
+
+  getTotalChi(request: any) {
+    return this.http.post<any>(`http://localhost:8080/api/transactions/totalChi`, request);
+  }
+
+
 }

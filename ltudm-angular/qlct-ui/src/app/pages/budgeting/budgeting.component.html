@@ -1,13 +1,5 @@
 <div class="content">
-    <app-budget-summary></app-budget-summary>
-    <app-budget-table></app-budget-table>
+    <app-budget-summary [totalBudget]="totalBudget" [totalSpending]="totalSpending"></app-budget-summary>
+    <app-budget-table (totalsCalculated)="onTotalsCalculated($event)"></app-budget-table>
     <button (click) = "onNavigatethemNS()" class="add-budget-btn">Thêm ngân sách</button>
-    <!-- <form [formGroup] = "loginForm" (ngSubmit) = "onSubmit()">
-        <label for="">userName: <input type="text" formControlName = "username"></label>
-        <br>
-        <label for="">passWord : <input type="text" formControlName = "password"></label>
-        <br>
-        <button type="submit" [disabled] = "!loginForm.valid">Submit</button>
-    </form>
-    {{result}} -->
 </div>

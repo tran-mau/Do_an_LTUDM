@@ -68,8 +68,8 @@
       <div class="category">
         <h1>Category</h1>
         <select [(ngModel)]="updateTransactionData.category_name">
-          <option *ngFor="let category of categories" [value]="category.category_name">
-            {{ category.category_name }}
+          <option *ngFor="let category of categories" [value]="category.name">
+            {{ category.name }}
           </option>
         </select>
       </div>

@@ -18,7 +18,7 @@ export class TransactionHistoryComponent implements OnInit {
   loading: boolean = true;
   error: string | null = null;
   clickedRemoveTransactionId: number | null = null;
-  clickUpdateTransactionId: string | null = null;
+  clickUpdateTransactionId: number | null = null;
 
   updateTransactionData: any = {
     amount: null,
@@ -101,18 +101,29 @@ export class TransactionHistoryComponent implements OnInit {
   }
 
   updateTransaction(): void {
-    if (!this.clickUpdateTransactionId) return;
-    
-    this.transactionService.updateTransaction(this.clickUpdateTransactionId, this.updateTransactionData).subscribe({
-      next: () => {
-        this.loadTransactions();
-        this.cancelUpdateTransaction();
-      },
-      error: (error) => {
-        console.error('Error updating transaction:', error);
-      }
-    });
-  }
+    if (this.clickUpdateTransactionId !== null) {
+        console.log('=== COMPONENT UPDATE ===');
+        console.log('Transaction ID:', this.clickUpdateTransactionId);
+        console.log('Update Data:', this.updateTransactionData);
+        
+        this.transactionService.updateTransaction(
+            this.clickUpdateTransactionId,
+            this.updateTransactionData
+        ).subscribe({
+            next: (response) => {
+                console.log('Transaction updated successfully', response);
+                this.loadTransactions();
+                this.cancelUpdateTransaction();
+            },
+            error: (error) => {
+                console.error('Error updating transaction:', error);
+                this.error = error.message;
+            }
+        });
+    } else {
+        console.error('No transaction ID selected for update');
+    }
+}
 
   cancelUpdateTransaction(): void {
     this.clickUpdateTransactionId = null;

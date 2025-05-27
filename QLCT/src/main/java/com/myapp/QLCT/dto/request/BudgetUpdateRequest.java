@@ -9,11 +9,11 @@ public class BudgetUpdateRequest {
     private LocalDate endDate;
     private String categoryName;
     private String notice;
-    private Integer userId;
+    private String userId;
     public BudgetUpdateRequest() {
     }
     public BudgetUpdateRequest(BigDecimal amount, LocalDate startDate, LocalDate endDate, String categoryName,
-            String notice, Integer userId) {
+            String notice, String userId) {
         this.amount = amount;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -36,9 +36,6 @@ public class BudgetUpdateRequest {
     public String getNotice() {
         return notice;
     }
-    public Integer getUserId() {
-        return userId;
-    }
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
@@ -54,7 +51,10 @@ public class BudgetUpdateRequest {
     public void setNotice(String notice) {
         this.notice = notice;
     }
-    public void setUserId(Integer userId) {
+    public String getUserId() {
+        return userId;
+    }
+    public void setUserId(String userId) {
         this.userId = userId;
-    } 
+    }
 }

@@ -14,11 +14,11 @@ public class BudgetCreateRequest {
     private LocalDate endDate;
     private String categoryName;
     private String notice;
-    private Integer userId; // dung de test them budget banwgf cacsh truyen id truc tiep ,test xong xoa
+    private String userId; // dung de test them budget banwgf cacsh truyen id truc tiep ,test xong xoa
     public BudgetCreateRequest() {
     }
     public BudgetCreateRequest( BigDecimal amount, LocalDate startDate, LocalDate endDate,
-            String categoryName, String notice ,Integer userId) {
+            String categoryName, String notice ,String userId) {
         this.amount = amount;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -56,13 +56,12 @@ public class BudgetCreateRequest {
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
-    public Integer getUserId() {
-        return userId;
-    }
-    public void setUserId(Integer userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
-
+    public String getUserId() {
+        return userId;
+    }
     
     
 }
