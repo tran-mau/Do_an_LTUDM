@@ -106,6 +106,7 @@ public class CognitoService {
                 DecodedJWT decodedJWT = JWT.decode(idToken);
                 String userId = decodedJWT.getSubject(); // lấy 'sub'
                 authResult.put("userId", userId);
+                authResult.put("username", username);
             } else if (authResponse.getChallengeName() != null) {
                 authResult.put("challengeName", authResponse.getChallengeName());
                 authResult.put("status", "CHALLENGE");

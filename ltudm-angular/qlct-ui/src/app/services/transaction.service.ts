@@ -33,7 +33,6 @@ export class TransactionService {
   showTransactionHistory(): Observable<any> {
     const userId = localStorage.getItem('userid');
 
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -53,7 +52,7 @@ export class TransactionService {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
-      withCredentials: true // Include if your API requires credentials
+      withCredentials: true 
     };
 
     return this.http.delete<any[]>(`${this.apiUrl}/transactions/remove?id=${transactionId}`, httpOptions)

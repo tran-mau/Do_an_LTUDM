@@ -59,6 +59,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
                      @Param("month") int month,
                      @Param("year") int year,
                      @Param("transactionType") Transaction.TransactionType transactionType);
+
        @Query("SELECT COALESCE(SUM(t.amount),0) FROM Transaction t " +
                      "WHERE t.user.id = :userId " +
                      "AND t.category.name = :categoryName " +
@@ -93,8 +94,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
                      "FROM Transaction t WHERE t.user.id = :userId ORDER BY t.dateTime DESC LIMIT 4")
        List<TransactionSummaryDTO> findTop4ByUserId(@Param("userId") String userId);
 
-       @Query("SELECT t FROM Transaction t WHERE t.user.id = :userId ORDER BY t.dateTime DESC") 
-List<Transaction> findByUserId(@Param("userId") String userId);
-
+       @Query("SELECT t FROM Transaction t WHERE t.user.id = :userId ORDER BY t.dateTime DESC")
+       List<Transaction> findByUserId(@Param("userId") String userId);
 
 }
