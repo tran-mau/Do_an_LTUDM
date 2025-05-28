@@ -3,19 +3,12 @@ package com.myapp.QLCT.service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.myapp.QLCT.dto.projection.TransactionSummaryProjection;
 import com.myapp.QLCT.dto.request.CategoryTotalDTO;
-import com.myapp.QLCT.dto.request.RevenueSummaryDTO;
 import com.myapp.QLCT.dto.request.TransactionCreateRequest;
 import com.myapp.QLCT.dto.request.TransactionSummaryDTO;
 import com.myapp.QLCT.dto.request.transactionDTO;
