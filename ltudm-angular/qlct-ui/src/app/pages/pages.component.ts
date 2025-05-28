@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-pages',
@@ -10,6 +11,7 @@ import { Router, RouterOutlet } from '@angular/router';
 })
 export class PagesComponent {
   // username: string = localStorage.getItem('username') || 'Guest';
+  currentRoute: string = '';
 
   private setUsername() {
     const userName = document.getElementById('username') as HTMLInputElement;
@@ -25,8 +27,27 @@ export class PagesComponent {
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    // Best to initialize in ngOnInit instead of ngAfterViewInit
-    // This will ensure the component is fully loaded
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        this.currentRoute = event.url;
+        console.log('Current route:', this.currentRoute);
+      });
+
+    // Set initial route
+    this.currentRoute = this.router.url;
+  }
+
+  // Method để navigate
+  navigate(route: string) {
+    this.router.navigate([route]);
+  }
+
+  // Method để check active state
+  isActive(route: string): boolean {
+    // Exact match hoặc starts with (để handle sub-routes)
+    return this.currentRoute === route || 
+           (route !== '/dashboard' && this.currentRoute.startsWith(route));
   }
 
   ngAfterViewInit(): void {
