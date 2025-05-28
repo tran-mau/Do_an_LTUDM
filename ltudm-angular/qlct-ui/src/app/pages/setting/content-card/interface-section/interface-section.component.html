@@ -1,34 +1,50 @@
 <div id="interface" class="section">
-    <h2>Interface</h2>
+  <h2>Interface Settings</h2>
 
-    <div class="interface-option">
-        <div class="option-label">Background</div>
-        <div class="option-value">
-            <div class="color-options">
-                <div class="color-circle blue selected"></div>
-                <div class="color-circle white"></div>
-                <div class="color-circle gray"></div>
-            </div>
-        </div>
-        <button class="change-button">Change</button>
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Background Color -->
+  <div class="interface-option">
+    <div class="option-label">Background Color</div>
+    <div class="option-value">
+      <div class="color-options">
+        <div
+          *ngFor="let color of backgroundOptions"
+          class="color-circle"
+          [style.background]="color"
+          [class.selected]="isSelected(color, selectedBackground)"
+          (click)="setBackground(color)"
+          [title]="color"
+        ></div>
+      </div>
     </div>
+  </div>
 
-    <div class="interface-option">
-        <div class="option-label">Font-family</div>
-        <div class="option-value">Inter</div>
-        <button class="change-button">Change</button>
+  <!-- Font Selection -->
+  <div class="interface-option">
+    <div class="option-label">Font Family</div>
+    <div class="option-value">
+      <span [style.fontFamily]="selectedFont">{{ getFontName(selectedFont) }}</span>
+      <div class="font-options">
+        <button
+          *ngFor="let font of fontOptions"
+          [style.fontFamily]="font.value"
+          [class.selected]="isSelected(font.value, selectedFont)"
+          (click)="setFont(font.value)"
+        >
+          {{ font.name }}
+        </button>
+      </div>
     </div>
+  </div>
 
-    <div class="interface-option">
-        <div class="option-label">Color-text</div>
-        <div class="option-value">
-            <div class="color-options">
-                <div class="color-circle blue selected"></div>
-                <div class="color-circle white"></div>
-            </div>
-        </div>
-        <button class="change-button">Change</button>
-    </div>
-
-    <button class="reset-button">Setting all default</button>
+  <!-- Reset Button -->
+  <div class="action-buttons">
+    <button class="reset-button" (click)="resetToDefault()">
+      Reset to Default
+    </button>
+  </div>
 </div>

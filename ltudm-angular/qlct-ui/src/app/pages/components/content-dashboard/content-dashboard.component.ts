@@ -3,6 +3,8 @@ import Chart from 'chart.js/auto';
 import { TransactionService } from '../../../services/transaction.service';
 import { forkJoin, Subject, takeUntil, combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 interface TransactionData {
   total: number;
@@ -13,8 +15,8 @@ interface TransactionHistoryData {
   type: string;
   notice: string | null;
   amount: number;
-  dateTime: Date; // Add date if available in your API
-  icon?: string; // Add icon mapping if needed
+  dateTime: Date;
+  icon?: string;
 }
 
 interface DashboardData {
@@ -30,6 +32,7 @@ interface DashboardData {
 @Component({
   selector: 'app-content',
   templateUrl: './content-dashboard.component.html',
+  imports: [CommonModule, FormsModule],
   styleUrls: ['./content-dashboard.component.css']
 })
 export class ContentComponent implements AfterViewInit, OnDestroy {
@@ -40,6 +43,7 @@ export class ContentComponent implements AfterViewInit, OnDestroy {
   readonly currentDate = new Date();
   readonly currentMonth = this.currentDate.getMonth() + 1;
   readonly currentYear = this.currentDate.getFullYear();
+  selectedOption = 'year2025';
 
   // Dashboard data
   dashboardData: DashboardData = {
@@ -75,6 +79,9 @@ export class ContentComponent implements AfterViewInit, OnDestroy {
           label: (context: any) => {
             const label = context.label || '';
             const value = context.raw as number;
+            if (value === 1) {
+              return `${label}`;
+            }
             return `${label}: ${this.formatCurrency(value)}`;
           }
         }
@@ -97,6 +104,41 @@ export class ContentComponent implements AfterViewInit, OnDestroy {
     this.destroyAllCharts();
   }
 
+  // Updated method to handle year selection change
+  onOptionChange(): void {
+    console.log('Selected option:', this.selectedOption);
+    // Extract year from selected option (e.g., 'year2025' -> 2025)
+    const selectedYear = parseInt(this.selectedOption.replace('year', ''));
+    this.loadMonthlyChartData(selectedYear);
+  }
+
+  // New method to load monthly chart data for specific year
+  private loadMonthlyChartData(year: number): void {
+    const monthlyIn$ = this.createMonthlyObservables('in', year);
+    const monthlyOut$ = this.createMonthlyObservables('out', year);
+
+    combineLatest([monthlyIn$, monthlyOut$]).pipe(
+      takeUntil(this.destroy$),
+      map(([monthlyIn, monthlyOut]) => ({
+        monthlyIn,
+        monthlyOut
+      }))
+    ).subscribe({
+      next: (data) => {
+        // Update only the monthly data in dashboardData
+        this.dashboardData.monthlyIn = data.monthlyIn;
+        this.dashboardData.monthlyOut = data.monthlyOut;
+
+        // Update the monthly chart with new data
+        this.updateMonthlyChart();
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error('Error loading monthly chart data:', error);
+      }
+    });
+  }
+
   private loadDashboardData(): void {
     // Create observables for all data
     const balance$ = this.transactionService.getBalanceTransaction();
@@ -106,9 +148,10 @@ export class ContentComponent implements AfterViewInit, OnDestroy {
     const expenses$ = this.transactionService.getListAmountOutTransaction();
     const top4transactionHistory$ = this.transactionService.getListTop4Transaction();
 
-    // Create monthly data observables
-    const monthlyIn$ = this.createMonthlyObservables('in');
-    const monthlyOut$ = this.createMonthlyObservables('out');
+    // Create monthly data observables for current year initially
+    const selectedYear = parseInt(this.selectedOption.replace('year', ''));
+    const monthlyIn$ = this.createMonthlyObservables('in', selectedYear);
+    const monthlyOut$ = this.createMonthlyObservables('out', selectedYear);
 
     // Combine all observables
     combineLatest([
@@ -151,17 +194,17 @@ export class ContentComponent implements AfterViewInit, OnDestroy {
       },
       error: (error) => {
         console.error('Error loading dashboard data:', error);
-        // Handle error appropriately - show user notification, etc.
       }
     });
   }
 
-  private createMonthlyObservables(type: 'in' | 'out'): Observable<number[]> {
+  // Updated to accept year parameter
+  private createMonthlyObservables(type: 'in' | 'out', year: number = this.currentYear): Observable<number[]> {
     const calls = Array.from({ length: 12 }, (_, i) => {
       const month = i + 1;
       return type === 'in'
-        ? this.transactionService.getAmountInTransaction(month, this.currentYear)
-        : this.transactionService.getAmountOutTransaction(month, this.currentYear);
+        ? this.transactionService.getAmountInTransaction(month, year)
+        : this.transactionService.getAmountOutTransaction(month, year);
     });
 
     return forkJoin(calls);
@@ -206,12 +249,12 @@ export class ContentComponent implements AfterViewInit, OnDestroy {
     // Get icon based on transaction type or notice
     const icon = this.getTransactionIcon(transaction);
 
-    // Format date (you might need to adjust this based on your API response)
+    // Format date
     console.log("transaction.date: ", transaction.dateTime);
     const formattedDate = this.formatTransactionDate(transaction.dateTime.toString());
 
     const typeClass = transaction.type === 'thu' ? 'bg-income' : 'bg-expense';
-    li.classList.add(typeClass); 
+    li.classList.add(typeClass);
     li.innerHTML = `
       <div class="transaction-icon ${transactionClass}">
         <i class="fas ${icon}"></i>
@@ -224,8 +267,6 @@ export class ContentComponent implements AfterViewInit, OnDestroy {
         ${amountPrefix}${this.formatCurrency(Math.abs(transaction.amount))}
       </span>
     `;
-
-    
 
     return li;
   }
@@ -282,28 +323,44 @@ export class ContentComponent implements AfterViewInit, OnDestroy {
   }
 
   private initChart(canvasId: string, type: 'doughnut', data: TransactionData[]): void {
-    if (!data.length) return;
+    // if (!data.length) return;
 
     const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
     if (!canvas) return;
 
     // Destroy existing chart
     this.destroyChart(canvasId);
+    if (data.length === 0) {
+      const chart = new Chart(canvas, {
+        type,
+        data: {
+          labels: ['No data available'],
+          datasets: [{
+            data: [1],
+            backgroundColor: '#5A827E',
+            borderWidth: 0
+          }]
+        },
+        options: this.DOUGHNUT_CONFIG
+      });
 
-    const chart = new Chart(canvas, {
-      type,
-      data: {
-        labels: data.map(item => item.name),
-        datasets: [{
-          data: data.map(item => item.total),
-          backgroundColor: this.CHART_COLORS.slice(0, data.length),
-          borderWidth: 0
-        }]
-      },
-      options: this.DOUGHNUT_CONFIG
-    });
+      this.charts.set(canvasId, chart);
+    } else {
+      const chart = new Chart(canvas, {
+        type,
+        data: {
+          labels: data.map(item => item.name),
+          datasets: [{
+            data: data.map(item => item.total),
+            backgroundColor: this.CHART_COLORS.slice(0, data.length),
+            borderWidth: 0
+          }]
+        },
+        options: this.DOUGHNUT_CONFIG
+      });
 
-    this.charts.set(canvasId, chart);
+      this.charts.set(canvasId, chart);
+    }
   }
 
   private initMonthlyChart(): void {
@@ -342,7 +399,7 @@ export class ContentComponent implements AfterViewInit, OnDestroy {
             beginAtZero: true,
             grid: { color: '#f0f0f0' },
             ticks: {
-              callback: (value: any) => `${(value / 1000000)}M`
+              callback: (value: any) => (value / 1000000) > 0.0001 ? `${(value / 1000000)}M` : `0đ`
             }
           }
         },
@@ -367,6 +424,22 @@ export class ContentComponent implements AfterViewInit, OnDestroy {
     });
 
     this.charts.set('monthlyChart', chart);
+  }
+
+  // New method to update existing monthly chart with new data
+  private updateMonthlyChart(): void {
+    const existingChart = this.charts.get('monthlyChart');
+    if (existingChart) {
+      // Update chart data
+      existingChart.data.datasets[0].data = this.dashboardData.monthlyIn;
+      existingChart.data.datasets[1].data = this.dashboardData.monthlyOut;
+
+      // Update chart
+      existingChart.update('active');
+    } else {
+      // If chart doesn't exist, initialize it
+      this.initMonthlyChart();
+    }
   }
 
   private destroyChart(chartId: string): void {

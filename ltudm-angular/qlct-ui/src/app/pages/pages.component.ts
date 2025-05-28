@@ -9,6 +9,16 @@ import { Router, RouterOutlet } from '@angular/router';
   styleUrl: './pages.component.css'
 })
 export class PagesComponent {
+  // username: string = localStorage.getItem('username') || 'Guest';
+
+  private setUsername() {
+    const userName = document.getElementById('username') as HTMLInputElement;
+
+    const storedUsername = localStorage.getItem('username');
+    if (storedUsername) {
+      userName.innerHTML = storedUsername;
+    }
+  }
   title = 'qlct-ui';
   // activeSection: string = 'home';
 
@@ -21,6 +31,7 @@ export class PagesComponent {
 
   ngAfterViewInit(): void {
     this.setupMenuListeners();
+    this.setUsername();
   }
 
   setupMenuListeners() {

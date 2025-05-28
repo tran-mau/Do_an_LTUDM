@@ -1,3 +1,12 @@
+.section {
+    display: block;
+    max-width: 100%; 
+    padding: 20px;
+    background-color: var(--app-background); 
+    border-radius: 8px; /* Bo góc nhẹ */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+}
+
 h2 {
     color: #2F3478;
     margin-bottom: 20px;
@@ -54,4 +63,42 @@ h2 {
 
 .change-password-btn:hover {
     background-color: #1e1f4f;
+}
+
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Mờ nền */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background-color: white;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    width: 400px;
+    max-width: 90%;
+    position: relative;
+}
+
+.popup-content .form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.popup-content .close-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
 }
