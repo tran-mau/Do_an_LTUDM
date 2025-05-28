@@ -1,5 +1,7 @@
 package com.myapp.QLCT.controller;
 
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.myapp.QLCT.dto.request.UserRequest;
 import com.myapp.QLCT.entity.User;
+import com.myapp.QLCT.service.CognitoService;
 import com.myapp.QLCT.service.SettingService;
 
 import lombok.AccessLevel;
@@ -23,6 +26,7 @@ import lombok.experimental.FieldDefaults;
 public class SettingController {
 
     SettingService settingService;
+    CognitoService cognitoService;
 
     @GetMapping("/userProfile")
     public ResponseEntity<User> getUserProfile() {
@@ -38,5 +42,19 @@ public class SettingController {
         User response = settingService.editUserProfile(accessToken, request);
 
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<Map<String, String>> changePassword(@RequestBody Map<String, String> userData) {
+        String username = userData.get("username");
+        String newPassword = userData.get("newPassword");
+
+        Map<String, String> result = cognitoService.resetPassword(username, newPassword);
+
+        if ("SUCCESS".equals(result.get("status"))) {
+            return ResponseEntity.ok(result);
+        } else {
+            return ResponseEntity.badRequest().body(result);
+        }
     }
 }

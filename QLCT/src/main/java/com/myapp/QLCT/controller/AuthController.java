@@ -85,19 +85,5 @@ public class AuthController {
             return ResponseEntity.badRequest().body(result);
         }
     }
-
-    @PostMapping("/change-password")
-    public ResponseEntity<Map<String, String>> changePassword(@RequestBody Map<String, String> userData) {
-        String username = userData.get("username");
-        String newPassword = userData.get("newPassword");
-
-        Map<String, String> result = cognitoService.resetPassword(username, newPassword);
-
-        if ("SUCCESS".equals(result.get("status"))) {
-            return ResponseEntity.ok(result);
-        } else {
-            return ResponseEntity.badRequest().body(result);
-        }
-    }
     
 }

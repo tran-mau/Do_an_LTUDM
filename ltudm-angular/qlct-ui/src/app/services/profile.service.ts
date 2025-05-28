@@ -13,9 +13,10 @@ export class ProfileService {
   }
 
   editUserProfile(data: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/api/settings/editProfile`, data);
+  }
 
-    return this.http.post<any>(`${this.apiUrl}/api/settings/editProfile`, data, {
-      observe: 'response'
-    });
+  changePassword(data: { username: string, newPassword: string }): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/api/settings/change-password`, data);
   }
 }
