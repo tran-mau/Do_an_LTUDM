@@ -1,4 +1,12 @@
 <div class="content">
+  <div class="select-time">
+    <select class="chart-period" [(ngModel)]="selectedPeriod" (change)="onPeriodChange()">
+      <option value="all">Tất cả</option>
+      <option value="week">Tuần này</option>
+      <option value="month">Tháng này</option>
+      <option value="year">Năm này</option>
+    </select>
+  </div>
   <div class="transaction-table-container">
     <div *ngIf="loading" class="loading">Loading transactions...</div>
     <div *ngIf="error" class="error">{{ error }}</div>

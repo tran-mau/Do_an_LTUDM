@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, retry } from 'rxjs/operators';
 
@@ -30,22 +30,68 @@ export class TransactionService {
     return throwError(() => new Error(errorMessage));
   }
 
-  showTransactionHistory(): Observable<any> {
+   getAllTransactions(): Observable<any[]> {
     const userId = localStorage.getItem('userid');
 
-    const httpOptions = {
+      const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       }),
       withCredentials: true
     };
 
-    return this.http.get<any[]>(`${this.apiUrl}/transactions?userId=${userId}`, httpOptions)
+    return this.http.get<any[]>(`${this.apiUrl}/transactions/all?userId=${userId}`, httpOptions)
       .pipe(
         retry(1),
         catchError(this.handleError)
       );
   }
+
+  // Method hiện tại để lấy giao dịch theo filter thời gian
+  showTransactionHistory(value: number = 1, unit: string = 'DAYS'): Observable<any[]> {
+      const userId = localStorage.getItem('userid');
+      const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      withCredentials: true,
+       params: new HttpParams()
+        .set('userId', userId ? userId : '')
+        .set('value', value.toString())
+        .set('unit', unit)
+    };
+
+    return this.http.get<any[]>(`${this.apiUrl}/transactions`, httpOptions)
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      );
+
+    }
+  //   const params = new HttpParams()
+  //     .set('userId', this.getCurrentUserId())
+  //     .set('value', value.toString())
+  //     .set('unit', unit);
+    
+  //   return this.http.get<any[]>(`${this.apiUrl}/transactions`, { params });
+  // }
+
+  // showTransactionHistory(): Observable<any> {
+  //   const userId = localStorage.getItem('userid');
+
+  //   const httpOptions = {
+  //     headers: new HttpHeaders({
+  //       'Content-Type': 'application/json'
+  //     }),
+  //     withCredentials: true
+  //   };
+
+  //   return this.http.get<any[]>(`${this.apiUrl}/transactions?userId=${userId}`, httpOptions)
+  //     .pipe(
+  //       retry(1),
+  //       catchError(this.handleError)
+  //     );
+  // }
 
   deleteTransaction(transactionId: string): Observable<any> {
     const httpOptions = {

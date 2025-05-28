@@ -1,4 +1,4 @@
-<div class="container">
+<!-- <div class="container">
   <aside class="sidebar">
     <div class="logo">LOGO</div>
     <nav class="nav">
@@ -14,11 +14,61 @@
       <div class="search-box">
         <input type="text" placeholder="Search for product" />
         <a href="#"><i class="fas fa-search"></i></a>
-      </div>
+      </div> -->
       <!-- <div class="date-picker">
         <input type="date" class="custom-date" id="date-input" />
         <i class="fas fa-calendar-alt custom-calendar-icon" (click)="calendarClicked()"></i>
       </div> -->
+      <!-- <div class="user-box">
+        <span id="username"></span>
+        <div class="user-icon"><a href="#"><i class="fas fa-user"></i></a></div>
+      </div>
+    </div>
+    <router-outlet></router-outlet>
+  </main>
+</div> -->
+<div class="container">
+  <aside class="sidebar">
+    <div class="logo">LOGO</div>
+    <nav class="nav">
+      <button 
+        class="nav-item" 
+        [class.active]="isActive('/dashboard')"
+        (click)="navigate('/dashboard')">
+        <i class="fas fa-home"></i>Home
+      </button>
+      <button 
+        class="nav-item" 
+        [class.active]="isActive('/transaction')"
+        (click)="navigate('/transaction')">
+        <i class="fas fa-clock"></i>Transaction History
+      </button>
+      <button 
+        class="nav-item" 
+        [class.active]="isActive('/income-outcome')"
+        (click)="navigate('/income-outcome')">
+        <i class="fas fa-credit-card"></i>Income & Outcome
+      </button>
+      <button 
+        class="nav-item" 
+        [class.active]="isActive('/budget')"
+        (click)="navigate('/budget')">
+        <i class="fas fa-list"></i>Budgeting
+      </button>
+      <button 
+        class="nav-item" 
+        [class.active]="isActive('/setting')"
+        (click)="navigate('/setting')">
+        <i class="fas fa-cog"></i>Setting
+      </button>
+    </nav>
+  </aside>
+  <main class="main">
+    <div class="topbar">
+      <div class="search-box">
+        <input type="text" placeholder="Search for product" />
+        <a href="#"><i class="fas fa-search"></i></a>
+      </div>
       <div class="user-box">
         <span id="username"></span>
         <div class="user-icon"><a href="#"><i class="fas fa-user"></i></a></div>

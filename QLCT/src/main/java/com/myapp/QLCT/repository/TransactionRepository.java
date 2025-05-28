@@ -97,4 +97,8 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
        @Query("SELECT t FROM Transaction t WHERE t.user.id = :userId ORDER BY t.dateTime DESC")
        List<Transaction> findByUserId(@Param("userId") String userId);
 
+       @Query("SELECT t FROM Transaction t WHERE t.user.id = :userId AND t.dateTime >= :startTime ORDER BY t.dateTime DESC")
+       List<Transaction> findByUserIdAndDatetimeAfter(@Param("userId") String userId,
+                     @Param("startTime") LocalDateTime startTime);
+
 }

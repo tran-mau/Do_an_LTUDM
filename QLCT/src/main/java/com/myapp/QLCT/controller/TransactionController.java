@@ -2,6 +2,7 @@ package com.myapp.QLCT.controller;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,8 +35,16 @@ public class TransactionController {
     private TransactionService transactionService;
 
     @GetMapping("")
-    public List<transactionDTO> showTransactionEntity(@RequestParam String userId) {
-        return transactionService.showTransactionDTO(userId);
+    public List<transactionDTO> showTransactionEntity(@RequestParam String userId,
+            @RequestParam(defaultValue = "1") int value,
+            @RequestParam(defaultValue = "DAYS") String unit) {
+        ChronoUnit chronoUnit = ChronoUnit.valueOf(unit.toUpperCase());
+        return transactionService.showTransactionDTO(userId, value, chronoUnit);
+    }
+
+    @GetMapping("/all")
+    public List<transactionDTO> getAllTransactions(@RequestParam String userId) {
+        return transactionService.getAllTransactionDTO(userId);
     }
 
     @DeleteMapping("/remove")
@@ -43,21 +52,21 @@ public class TransactionController {
         transactionService.removeTransactionEntity(id);
     }
 
-    @PutMapping("/update") 
+    @PutMapping("/update")
     public ResponseEntity<transactionDTO> updateTransaction(
             @RequestParam int id,
             @RequestBody transactionDTO updatedDTO) {
-        
+
         System.out.println("=== UPDATE REQUEST RECEIVED ===");
         System.out.println("Transaction ID: " + id);
         System.out.println("Updated data: " + updatedDTO);
-        
+
         try {
             transactionDTO result = transactionService.updateTransaction(id, updatedDTO);
             return ResponseEntity.ok(result);
         } catch (RuntimeException e) {
             System.out.println("Error: " + e.getMessage());
-            return ResponseEntity.notFound().build(); 
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -101,8 +110,9 @@ public class TransactionController {
         return "Hello, this is a test message!";
     }
     // @GetMapping("/user/get-revenue-summary")
-    // public List<RevenueSummaryDTO> getRevenueSummary(@RequestParam("userId") String userId) {
-    //     return transactionService.getMonthlyRevenueSummary(userId);
+    // public List<RevenueSummaryDTO> getRevenueSummary(@RequestParam("userId")
+    // String userId) {
+    // return transactionService.getMonthlyRevenueSummary(userId);
     // }
 
     @GetMapping("/user/get-trasaction-by-user-and-year")
@@ -113,18 +123,17 @@ public class TransactionController {
     }
 
     @GetMapping("/user/get-top4-transaction-by-user")
-    public  List<TransactionSummaryDTO> getTop4ByUserId(@RequestParam("userId") String userId) {
+    public List<TransactionSummaryDTO> getTop4ByUserId(@RequestParam("userId") String userId) {
         return transactionService.getTop4Transactions(userId);
     }
 
     @PostMapping("/totalChi")
     public ResponseEntity<BigDecimal> getTotalChi(@RequestBody TotalChiRequest request) {
         BigDecimal totalChi = transactionService.getTotalChi(
-            request.getUserId(),
-            request.getcategoryName(),
-            request.getStartDate().atStartOfDay(),
-            request.getEndDate().atTime(23, 59, 59)
-        );
+                request.getUserId(),
+                request.getcategoryName(),
+                request.getStartDate().atStartOfDay(),
+                request.getEndDate().atTime(23, 59, 59));
         return ResponseEntity.ok(totalChi);
     }
 

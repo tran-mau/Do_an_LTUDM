@@ -3,6 +3,28 @@
     font-size: 16px;
 }
 
+.select-time {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.select-time h4 {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.chart-period {
+    border: 1px solid #2f3478;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 12px;
+    background-color: #ffffff;
+    color: #2f3478;
+    cursor: pointer;
+}
+
 /* Transaction table */
 .transaction-table-container {
     background-color: white;
