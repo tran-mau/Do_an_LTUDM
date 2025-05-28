@@ -74,7 +74,7 @@ export class BudgetFormComponent {
       next: (response: any) => {
         console.log('Budget created successfully:', response);
         alert('Budget created successfully');
-        this.router.navigate(['/budgeting']);
+        this.router.navigate(['/budget']);
       },
       complete: () => {
         console.log('Request completed');
