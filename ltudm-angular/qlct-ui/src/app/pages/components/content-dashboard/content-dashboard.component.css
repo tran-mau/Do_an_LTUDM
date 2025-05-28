@@ -473,6 +473,16 @@ html {
     font-size: 10px;
 }
 
+.bg-income {
+    background-color: #e8f5e9 !important;
+    /* xanh nhạt */
+}
+
+.bg-expense {
+    background-color: #ffebee !important;
+    /* đỏ nhạt */
+}
+
 /* Monthly Chart */
 .monthly-chart {
     background: #ffffff;
