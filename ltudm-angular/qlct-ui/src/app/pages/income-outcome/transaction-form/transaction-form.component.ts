@@ -54,7 +54,7 @@ export class TransactionFormComponent {
         next: (response: any) => {
           console.log('Transaction added successfully:', response);
           alert('Transaction added successfully');
-          this.router.navigate(['/transactions']);
+          this.router.navigate(['/income-outcome']);
         },
         complete: () => {
           console.log('Transaction addition completed');
@@ -144,7 +144,7 @@ export class TransactionFormComponent {
   this.transactionService.getBudgetAmount(userId, categoryName, dateStr).subscribe({
     next: (budget: number) => {
       if (!budget || budget <= 0) {
-        alert('⚠️ Không có ngân sách cho danh mục này hoặc ngân sách bằng 0.');
+        this.addTransaction();
         return;
       }
 
